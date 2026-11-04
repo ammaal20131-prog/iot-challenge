@@ -225,7 +225,79 @@ footer{padding-block:20px 40px;color:var(--muted);font-size:13px;text-align:cent
 .toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));inset-inline-start:50%;transform:translateX(50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .3s;z-index:20}
 .toast.show{opacity:1}
 
+/* LIVE 3D HOUSE */
+.live{background:var(--surface);border:2px solid var(--line);border-radius:26px;padding:20px;display:grid;gap:16px;margin-bottom:24px;box-shadow:var(--shadow)}
+.livehead{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:end}
+.livehead>div{display:grid;gap:6px;max-width:60ch;justify-items:start}
+.livehead h2{font-size:clamp(26px,4.5vw,38px);font-weight:800}
+.tourbtn{font-size:17px;padding:12px 18px;animation:nudge 2.6s ease-in-out infinite}
+@keyframes nudge{0%,85%,100%{transform:none}90%{transform:rotate(-3deg) scale(1.04)}95%{transform:rotate(3deg) scale(1.04)}}
+.idea{display:grid;gap:10px;background:var(--bg);border-radius:18px;padding:14px}
+.ideaT{font-size:17px}
+.ideaT b{color:var(--teal)}
+.chain{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;counter-reset:c}
+.chain li{counter-increment:c;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:10px;display:grid;gap:2px;position:relative}
+.chain li::before{content:counter(c);position:absolute;top:8px;inset-inline-end:10px;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.chain .cd{width:14px;height:14px;border-radius:50%;background:var(--c);box-shadow:0 0 10px var(--c)}
+.chain b{font-family:var(--f-display);font-size:16px}
+.chain small{color:var(--muted);font-size:13px;line-height:1.5}
+.livegrid{display:grid;grid-template-columns:1fr 250px;gap:14px}
+.livegrid>*{min-width:0}
+.stage3d{position:relative;height:clamp(340px,58vw,520px);border-radius:20px;overflow:hidden;background:linear-gradient(#bfe6f2,#e8f6f9);touch-action:none}
+.stage3d canvas{display:block;width:100%!important;height:100%!important}
+.hint{position:absolute;top:10px;inset-inline-start:10px;z-index:2;background:rgba(13,43,51,.72);color:#fff;font-size:12px;padding:3px 10px;border-radius:99px;pointer-events:none}
+.labbtn{position:absolute;bottom:10px;inset-inline-start:10px;z-index:2;border:none;background:rgba(255,255,255,.9);color:#0d2b33;border-radius:99px;padding:4px 12px;font-weight:700;font-size:13px}
+.labbtn[aria-pressed="false"]{opacity:.6}
+.nogl{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:20px;color:#0d2b33;font-weight:700}
+.phone{background:#0d2b33;color:#e6f4f6;border-radius:28px;padding:14px;border:6px solid #1f3f48;display:grid;gap:8px;align-content:start}
+.phtop{display:flex;justify-content:space-between;align-items:center;font-family:var(--f-display);font-size:16px}
+.net{display:inline-flex;gap:6px;align-items:center;font-size:12px;color:#45d3a3}
+.net .dot{background:#45d3a3;box-shadow:0 0 8px #45d3a3;animation:blink 1.4s infinite}
+@keyframes blink{50%{opacity:.3}}
+.rd{background:#16363f;border-radius:14px;padding:8px 10px;display:grid;grid-template-columns:1fr auto;gap:0 8px;transition:background .3s}
+.rd span{font-size:14px}
+.rd b{font-size:18px;color:#ffc84a}
+.rd em{grid-column:1/-1;font-style:normal;font-size:12px;color:#93b3bb}
+.rd.on{background:#1d5560}
+.rd.on em{color:#45d3a3;font-weight:700}
+.lgT{font-size:12px;color:#93b3bb;margin-top:4px}
+.log{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-size:12px;min-height:66px}
+.log li{background:#16363f;border-radius:8px;padding:3px 8px;animation:fadein .3s}
+.ctrls{display:grid;grid-template-columns:repeat(3,1fr) auto;gap:12px;align-items:end}
+.ctl{display:grid;gap:4px;background:var(--bg);border-radius:14px;padding:8px 12px}
+.ctl label{font-weight:700;font-size:14px;display:flex;justify-content:space-between;gap:6px}
+
+/* ROBOT */
+.robot{position:fixed;left:max(12px,env(safe-area-inset-left,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:30;display:flex;flex-direction:column;align-items:flex-start;gap:8px;pointer-events:none}
+.robot>*{pointer-events:auto}
+.bot{border:none;background:none;padding:0;width:74px;height:88px;filter:drop-shadow(0 8px 10px rgba(13,43,51,.35));animation:bob 3s ease-in-out infinite}
+.bot svg{width:100%;height:100%}
+@keyframes bob{50%{transform:translateY(-6px)}}
+.bot .eyes{transform-origin:40px 38px;animation:eyeblink 4s infinite}
+@keyframes eyeblink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+.bot .ant{animation:blink 1.2s infinite}
+.robot.talk .mouth{animation:talk .25s infinite alternate}
+@keyframes talk{to{transform:scaleY(1.8)}}
+.robot .mouth{transform-origin:40px 48px}
+.robot.talk .arm{animation:wave .4s infinite alternate;transform-origin:22px 70px}
+@keyframes wave{to{transform:rotate(25deg)}}
+.bubble{order:-1;width:min(320px,calc(100vw - 32px));background:var(--surface);color:var(--ink);border:2.5px solid var(--teal);border-radius:18px 18px 18px 4px;padding:12px 14px;box-shadow:var(--shadow);position:relative;display:grid;gap:6px;animation:fadein .25s}
+.bname{font-family:var(--f-display);color:var(--teal);font-size:15px}
+.bubble p{font-size:15px;line-height:1.7}
+.bx{position:absolute;top:4px;inset-inline-end:6px;border:none;background:none;color:var(--muted);font-size:22px;line-height:1;padding:4px 6px}
+.bacts{display:flex;gap:6px;flex-wrap:wrap}
+.bacts:empty{display:none}
+.bacts button{border:none;border-radius:10px;padding:6px 12px;font-weight:700;background:var(--teal);color:var(--on-teal)}
+.bacts button.alt{background:var(--bg);color:var(--ink);border:1.5px solid var(--line)}
+footer{padding-bottom:120px}
+
 @media (max-width:760px){
+  .chain{grid-template-columns:1fr 1fr}
+  .livegrid{grid-template-columns:1fr}
+  .stage3d{height:360px}
+  .ctrls{grid-template-columns:1fr}
+  .phone{grid-template-columns:1fr 1fr}
+  .phone .phtop,.phone .lgT,.phone .log{grid-column:1/-1}
   .hero{grid-template-columns:1fr}
   .house{max-width:260px;order:-1}
   .route{grid-template-columns:1fr}
@@ -273,6 +345,51 @@ footer{padding-block:20px 40px;color:var(--muted);font-size:13px;text-align:cent
     <button class="daybtn" role="tab" id="tab-2" data-day="2" aria-selected="false"><span class="led"></span><span class="n">اليوم الثاني · الحصص ٣–٥</span><span class="t">أصمّم وأبرمج</span><span class="s">الأثر، النموذج، البرمجة</span><span class="bar"><i></i></span></button>
     <button class="daybtn" role="tab" id="tab-3" data-day="3" aria-selected="false"><span class="led"></span><span class="n">اليوم الثالث · الحصتان ٦–٧</span><span class="t">أعرض وأشارك</span><span class="s">المسابقة والتقرير</span><span class="bar"><i></i></span></button>
   </nav>
+
+  <section class="live" aria-labelledby="liveH">
+    <div class="livehead">
+      <div>
+        <span class="eyebrow">ثلاثي الأبعاد · حي</span>
+        <h2 id="liveH">البيت الذكي الحي</h2>
+        <p class="muted">حرّك البيت بإصبعك، واضغط على أي جهاز ليشرحه لك نبيه. غيّر الضوء والحرارة والرطوبة، وشاهد البيانات تسافر عبر الإنترنت.</p>
+      </div>
+      <button class="btn sun tourbtn" id="tourBtn">🤖 جولة مع نبيه</button>
+    </div>
+
+    <div class="idea">
+      <p class="ideaT"><b>فكرة إنترنت الأشياء:</b> الأشياء من حولنا (مصباح، مكيّف، باب، حديقة) تتكلم مع بعضها ومعنا عبر الإنترنت.</p>
+      <ol class="chain">
+        <li style="--c:var(--sun)"><span class="cd"></span><b>الحساس يقيس</b><small>ضوء، حرارة، حركة، رطوبة</small></li>
+        <li style="--c:var(--teal)"><span class="cd"></span><b>الراوتر ينقل</b><small>يرسل القراءة عبر الواي فاي</small></li>
+        <li style="--c:#9fb4ff"><span class="cd"></span><b>السحابة تقرر</b><small>تحفظ البيانات وتطبّق البرنامج</small></li>
+        <li style="--c:var(--mint)"><span class="cd"></span><b>التطبيق يتحكم</b><small>تشاهد بيتك وتتحكم فيه من أي مكان</small></li>
+      </ol>
+    </div>
+
+    <div class="livegrid">
+      <div class="stage3d" id="house3d">
+        <span class="hint">اسحب للتدوير · قرّب بإصبعين · اضغط على جهاز</span>
+        <div class="nogl" id="nogl" hidden>جهازك لا يدعم العرض ثلاثي الأبعاد. جرّب متصفحًا آخر.</div>
+        <button class="labbtn" id="labelsBtn" aria-pressed="true">الأسماء</button>
+      </div>
+      <aside class="phone" aria-label="تطبيق البيت الذكي">
+        <div class="phtop"><b>📱 تطبيق بيتي</b><span class="net"><span class="dot"></span>متصل</span></div>
+        <div class="rd" id="rdLight"><span>☀ الإضاءة</span><b class="mono">70%</b><em>المصباح مطفأ</em></div>
+        <div class="rd" id="rdTemp"><span>🌡 الحرارة</span><b class="mono">26°</b><em>المروحة متوقفة</em></div>
+        <div class="rd" id="rdMotion"><span>👣 الحركة</span><b class="mono">0</b><em>الممر مطفأ</em></div>
+        <div class="rd" id="rdSoil"><span>💧 رطوبة التربة</span><b class="mono">60%</b><em>الري متوقف</em></div>
+        <p class="lgT">آخر البيانات الواصلة</p>
+        <ul class="log" id="log"></ul>
+      </aside>
+    </div>
+
+    <div class="ctrls">
+      <div class="ctl"><label for="hDay">☀ ضوء النهار <span class="mono" id="hDayV">70%</span></label><input type="range" id="hDay" min="0" max="100" value="70"></div>
+      <div class="ctl"><label for="hTemp">🌡 حرارة البيت <span class="mono" id="hTempV">26°</span></label><input type="range" id="hTemp" min="16" max="45" value="26"></div>
+      <div class="ctl"><label for="hSoil">💧 رطوبة التربة <span class="mono" id="hSoilV">60%</span></label><input type="range" id="hSoil" min="0" max="100" value="60"></div>
+      <button class="btn" id="hWalk">👣 شخص يدخل البيت</button>
+    </div>
+  </section>
 
   <!-- ================= DAY 1 ================= -->
   <section class="day" id="day-1" role="tabpanel" aria-labelledby="tab-1">
@@ -510,17 +627,59 @@ footer{padding-block:20px 40px;color:var(--muted);font-size:13px;text-align:cent
 </div>
 <footer class="wrap">إعداد المعلمة أمل الشهري · حصة النشاط للصف الثاني (ج) · برنامج تحدي إنترنت الأشياء ·<span class="mono">1448 - 2026</span></footer>
 <div class="toast" id="toast" role="status"></div>
+
+<div class="robot" id="robot">
+  <div class="bubble" id="bubble" hidden role="status" aria-live="polite">
+    <button class="bx" id="bclose" aria-label="إغلاق">×</button>
+    <b class="bname">نبيه</b>
+    <p id="bubbleText"></p>
+    <div class="bacts" id="bacts"></div>
+  </div>
+  <button class="bot" id="botBtn" aria-label="المساعد نبيه، اضغط لنصيحة">
+    <svg viewBox="0 0 80 96" aria-hidden="true">
+      <line x1="40" y1="6" x2="40" y2="20" stroke="#0d2b33" stroke-width="3"/>
+      <circle class="ant" cx="40" cy="7" r="5" fill="#ffb81c"/>
+      <circle cx="10" cy="40" r="6" fill="#ffb81c"/><circle cx="70" cy="40" r="6" fill="#ffb81c"/>
+      <rect x="12" y="18" width="56" height="44" rx="16" fill="#007891"/>
+      <rect x="19" y="25" width="42" height="30" rx="10" fill="#0b1f24"/>
+      <g class="eyes"><ellipse cx="32" cy="38" rx="4.5" ry="6" fill="#45d3a3"/><ellipse cx="48" cy="38" rx="4.5" ry="6" fill="#45d3a3"/></g>
+      <path class="mouth" d="M33 48 q7 5 14 0" stroke="#45d3a3" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <rect x="22" y="64" width="36" height="26" rx="10" fill="#d9eef2" stroke="#007891" stroke-width="3"/>
+      <circle class="heart" cx="40" cy="77" r="5" fill="#ff6b5b"/>
+      <path class="arm" d="M22 70 q-10 -2 -12 -12" stroke="#007891" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M58 70 q8 6 10 14" stroke="#007891" stroke-width="5" fill="none" stroke-linecap="round"/>
+    </svg>
+  </button>
+</div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script>
 (function(){
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const ar=n=>String(n);
 const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),1800)}
+/* ===== ROBOT نبيه ===== */
+let bubbleT,talkT,curDay=1;
+function robotSay(text,opts={}){
+  const bub=$('#bubble');bub.hidden=false;$('#bubbleText').textContent=text;
+  const acts=$('#bacts');acts.innerHTML='';(opts.actions||[]).forEach(a=>{const b=document.createElement('button');b.textContent=a.label;if(a.alt)b.className='alt';b.onclick=a.fn;acts.append(b)});
+  const r=$('#robot');r.classList.add('talk');clearTimeout(talkT);talkT=setTimeout(()=>r.classList.remove('talk'),Math.min(3500,600+text.length*35));
+  clearTimeout(bubbleT);if(!opts.sticky)bubbleT=setTimeout(()=>{bub.hidden=true},Math.max(4500,text.length*75));
+}
+function toast(t){robotSay(t)}
+const TIPS={1:['أنا نبيه، مساعدك في الدرس. جرّب «جولة مع نبيه» في البيت الذكي الحي فوق!','اضغط على أي جهاز داخل البيت ثلاثي الأبعاد، وأنا أشرح لك عمله.','في المختبر حرّك منزلق الضوء، وراقب متى يضيء المصباح وحده.','اختر حساسًا في قسم المفاهيم، وجرّب السؤال السريع.'],
+ 2:['في الحاسبة غيّر عدد ساعات التشغيل وشاهد كم توفّر.','صمّم منزلك: اختر غرفة ثم أضف أجهزة، وراقب الأمان والراحة والتوفير.','في البرمجة جرّب: إذا كانت الحرارة أكبر من 30 إذن شغّل المروحة.'],
+ 3:['قبل العرض أكمل قائمة الجاهزية حتى تصل إلى 100%.','اكتب تقريرك وانسخه بالزر الأصفر.','اختبر نفسك في الأسئلة الخمسة، وأنا أشجعك!']};
+let tipI=0;
+$('#botBtn').onclick=()=>{if(!$('#bubble').hidden&&!$('#bacts').children.length){$('#bubble').hidden=true;return}const t=TIPS[curDay];robotSay(t[tipI++%t.length])};
+$('#bclose').onclick=()=>{$('#bubble').hidden=true;if(window.endTour)endTour(true)};
 
 /* tabs */
-function showDay(d){$$('.daybtn').forEach(b=>b.setAttribute('aria-selected',b.dataset.day==d));[1,2,3].forEach(i=>$('#day-'+i).hidden=(i!=d));store.set('iot-day',d)}
+const DAYMSG={1:'اليوم الأول: نستكشف كيف يشعر البيت بما حوله. ابدأ بالمفاهيم ثم المختبر.',2:'اليوم الثاني: نحسب التوفير، نصمم منزلًا ذكيًا، ونبرمج سلوك جهاز.',3:'اليوم الثالث يوم العرض! جهّز فريقك واكتب تقريرك.'};
+let booted=false;
+function showDay(d){d=+d;curDay=d;tipI=0;$$('.daybtn').forEach(b=>b.setAttribute('aria-selected',b.dataset.day==d));[1,2,3].forEach(i=>$('#day-'+i).hidden=(i!=d));store.set('iot-day',d);if(booted)robotSay(DAYMSG[d])}
 $$('.daybtn').forEach(b=>b.addEventListener('click',()=>{showDay(b.dataset.day);b.scrollIntoView({block:'nearest'})}));
 showDay(store.get('iot-day',1));
 
@@ -652,6 +811,198 @@ $('#quiz').innerHTML=Q.map((q,i)=>`<div><p style="font-weight:700">${i+1}. ${q[0
 $$('.qopt').forEach(g=>g.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(g.dataset.a)return;g.dataset.a=1;const q=Q[g.dataset.q];const ok=+b.dataset.j===q[2];
   b.classList.add(ok?'right':'wrong');g.children[q[2]].classList.add('right');answered++;if(ok)score++;
   $('#quizScore').textContent=answered<Q.length?`أجبت عن ${answered} من ${Q.length}`:`نتيجتك ${score} من ${Q.length}. ${score>=4?'ممتاز! أنت جاهز للتحدي':'راجع مختبر الحساسات وحاول مجددًا'}`}));
+/* ===== LIVE 3D SMART HOUSE ===== */
+const H={day:70,temp:26,soil:60,walk:-1,hallUntil:0,watering:false};
+const INFO={
+ lamp:'💡 المصباح الذكي: حساس الضوء يقيس ضوء النهار. إذا قلّ عن 40% يضيء المصباح وحده، ويرسل حالته للتطبيق.',
+ ac:'❄ المكيّف الذكي: يقرأ حساس الحرارة. إذا تجاوزت الحرارة 30° يشتغل، ويرسل الحرارة للتطبيق كل لحظة.',
+ fan:'🌀 المروحة الذكية في غرفة النوم: تدور تلقائيًا عندما تزيد الحرارة على 30°.',
+ pir:'👣 حساس الحركة PIR: يلتقط حرارة جسم الإنسان عندما يتحرك، فيُضيء الممر ثم يطفئه بعد ثوانٍ.',
+ hall:'✨ إضاءة الممر: لا تعمل إلا عند وجود حركة، وهكذا نوفّر الكهرباء.',
+ door:'🚪 القفل الذكي: يفتح الباب عند اقتراب صاحب البيت، ويرسل تنبيهًا للجوال. هذا يعزّز الأمان.',
+ garden:'🌱 الري الذكي: حساس الرطوبة في التربة. إذا جفّت التربة تحت 30% يبدأ الرش، ويتوقف وحده عند الارتواء.',
+ router:'📶 الراوتر: قلب الاتصال. يجمع بيانات كل الأجهزة ويرسلها عبر الإنترنت إلى السحابة.',
+ cloud:'☁ السحابة: خوادم على الإنترنت تحفظ البيانات وتطبّق البرامج، وتوصلها إلى تطبيق جوالك أينما كنت.'};
+function hLog(t){const ul=$('#log');const li=document.createElement('li');li.textContent=t;ul.prepend(li);while(ul.children.length>3)ul.lastChild.remove()}
+function syncHouseUI(){
+  const lampOn=H.day<40,fanOn=H.temp>30,hallOn=performance.now()<H.hallUntil;
+  $('#hDayV').textContent=H.day+'%';$('#hTempV').textContent=H.temp+'°';$('#hSoilV').textContent=Math.round(H.soil)+'%';
+  const set=(id,val,txt,on)=>{const r=$(id);r.querySelector('b').textContent=val;r.querySelector('em').textContent=txt;r.classList.toggle('on',on)};
+  set('#rdLight',H.day+'%',lampOn?'💡 المصباح يعمل':'المصباح مطفأ',lampOn);
+  set('#rdTemp',H.temp+'°',fanOn?'🌀 المروحة والمكيّف يعملان':'المروحة متوقفة',fanOn);
+  set('#rdMotion',hallOn?'1':'0',hallOn?'✨ الممر مضاء':'الممر مطفأ',hallOn);
+  set('#rdSoil',Math.round(H.soil)+'%',H.watering?'💧 الري يعمل':'الري متوقف',H.watering);
+}
+let lastLamp=null,lastFan=null;
+$('#hDay').oninput=e=>{H.day=+e.target.value;const on=H.day<40;if(on!==lastLamp&&lastLamp!==null)robotSay(on?'الضوء قلّ عن 40%! حساس الضوء أرسل إشارة، فأضاء المصباح وحده 💡':'عاد ضوء النهار، فانطفأ المصباح لتوفير الكهرباء.');lastLamp=on;syncHouseUI()};
+$('#hTemp').oninput=e=>{H.temp=+e.target.value;const on=H.temp>30;if(on!==lastFan&&lastFan!==null)robotSay(on?'الحرارة تجاوزت 30°! اشتغلت المروحة والمكيّف تلقائيًا 🌀':'الجو معتدل الآن، توقفت المروحة والمكيّف.');lastFan=on;syncHouseUI()};
+$('#hSoil').oninput=e=>{H.soil=+e.target.value;if(H.soil<30&&!H.watering){H.watering=true;robotSay('التربة جافة! حساس الرطوبة طلب الري، والرشاش يعمل الآن 💧')}syncHouseUI()};
+$('#hWalk').onclick=()=>{H.walk=0;robotSay('شخص يقترب… القفل الذكي يفتح الباب، وحساس الحركة سيُضيء الممر 👣')};
+lastLamp=H.day<40;lastFan=H.temp>30;syncHouseUI();
+
+function initHouse(){
+  const box=$('#house3d');
+  if(!window.THREE||!THREE.OrbitControls){$('#nogl').hidden=false;return}
+  let renderer;try{renderer=new THREE.WebGLRenderer({antialias:true})}catch(e){$('#nogl').hidden=false;return}
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+  box.prepend(renderer.domElement);
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(42,1,0.1,120);
+  const OV={cam:new THREE.Vector3(10,10,12.5),tgt:new THREE.Vector3(-0.8,1.2,0)};
+  camera.position.copy(OV.cam);
+  const controls=new THREE.OrbitControls(camera,renderer.domElement);
+  controls.target.copy(OV.tgt);controls.enableDamping=true;controls.enablePan=false;controls.minDistance=5;controls.maxDistance=26;controls.maxPolarAngle=Math.PI*0.47;
+  function resize(){const w=box.clientWidth,h=box.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}
+  resize();if(window.ResizeObserver)new ResizeObserver(resize).observe(box);else addEventListener('resize',resize);
+
+  const hemi=new THREE.HemisphereLight(0xffffff,0x88aa88,0.65);scene.add(hemi);
+  const sun=new THREE.DirectionalLight(0xffffff,0.8);sun.position.set(6,12,5);scene.add(sun);
+  const M=(c,o={})=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:.75},o));
+  function B(w,h,d,c,x,y,z,p){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),M(c));m.position.set(x,y,z);(p||scene).add(m);return m}
+  function S(r,c,x,y,z,p,o){const m=new THREE.Mesh(new THREE.SphereGeometry(r,20,14),M(c,o));m.position.set(x,y,z);(p||scene).add(m);return m}
+  function C(rt,rb,h,c,x,y,z,p){const m=new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,16),M(c));m.position.set(x,y,z);(p||scene).add(m);return m}
+  const pick=[];const reg=(obj,key)=>{obj.traverse(o=>{if(o.isMesh){o.userData.key=key;pick.push(o)}})};
+  const WALL='#f3ece0',WALL2='#e9dfcf';
+
+  /* ground & structure */
+  B(30,.1,30,'#9fd38f',0,-0.25,0);
+  B(9,.2,8,'#e7d3b5',-1.5,-0.1,0);
+  B(3.2,.22,8,'#86c77a',4.6,-0.1,0);
+  B(9,3,.2,WALL,-1.5,1.5,-4);B(.2,3,8,WALL2,-6,1.5,0);
+  B(.2,2,5,WALL2,-1.5,1,-1.5);
+  [[-5.25,1.5],[-1.65,3.3],[2.1,1.8]].forEach(([x,w])=>B(w,2,.2,WALL2,x,1,1));
+  B(.2,2,5,WALL2,3,1,-1.5);B(.2,2,1.4,WALL2,3,1,3.3);
+  B(.25,2.2,.25,'#8a5a32',3,1.1,1.15);B(.25,2.2,.25,'#8a5a32',3,1.1,2.65);
+  B(4.2,.04,3,'#7fc3d0',-3.8,0.02,-1.6);B(3.6,.04,2.4,'#ffd28a',0.8,0.02,-1.6);
+
+  /* living room */
+  B(2.3,.45,.9,'#5aa6b8',-3.8,.25,-.4);B(2.3,.7,.22,'#4a93a5',-3.8,.65,0);
+  B(1,.35,.6,'#c79a6b',-3.8,.2,-1.8);
+  B(1.7,.95,.08,'#1b2a30',-3.8,1.55,-3.88);
+  const tvGlow=B(1.55,.82,.02,'#2f6b7a',-3.8,1.55,-3.83);
+  const lamp=new THREE.Group();C(.03,.03,1.7,'#555',-5.3,.85,-3.3,lamp);C(.25,.25,.06,'#555',-5.3,.03,-3.3,lamp);
+  const bulb=S(.22,'#fff4c2',-5.3,1.85,-3.3,lamp,{emissive:'#ffcc33',emissiveIntensity:0});scene.add(lamp);reg(lamp,'lamp');
+  const lampLight=new THREE.PointLight(0xffcc66,0,7);lampLight.position.set(-5.3,1.9,-3.3);scene.add(lampLight);
+  const ac=B(1.4,.42,.32,'#ffffff',-2.6,2.45,-3.78);B(1.2,.05,.05,'#7fa7b0',-2.6,2.27,-3.62);reg(ac,'ac');
+  const acLed=S(.04,'#45d3a3',-2.05,2.55,-3.6,null,{emissive:'#45d3a3',emissiveIntensity:0});
+  const air=[];for(let i=0;i<14;i++){const a=S(.05,'#9fe0ff',-2.6,2.2,-3.5,null,{transparent:true,opacity:.8,emissive:'#7fd3ff',emissiveIntensity:.6});a.visible=false;a.userData.t=Math.random();a.userData.x=(Math.random()-.5)*1.2;air.push(a)}
+
+  /* bedroom */
+  B(1.8,.45,2.4,'#ffffff',1.75,.25,-2.7);B(1.8,.12,1.5,'#ff8f80',1.75,.52,-2.25);B(1.2,.18,.5,'#d9eef2',1.75,.56,-3.6);
+  B(.5,.5,.5,'#c79a6b',0.5,.25,-3.6);
+  const fan=new THREE.Group();fan.position.set(0.6,2.75,-1.3);
+  C(.025,.025,.6,'#666',0,.3,0,fan);C(.14,.14,.12,'#e2952a',0,0,0,fan);
+  const blades=new THREE.Group();fan.add(blades);for(let i=0;i<3;i++){const bl=B(.9,.03,.18,'#c79a6b',.5,0,0);const g=new THREE.Group();g.add(bl);g.rotation.y=i*Math.PI*2/3;blades.add(g)}
+  scene.add(fan);reg(fan,'fan');
+
+  /* hallway */
+  const pir=new THREE.Group();B(.12,.22,.22,'#ffffff',-5.85,2.3,1.9,pir);S(.09,'#e8e8f6',-5.77,2.3,1.9,pir);
+  const pirLed=S(.03,'#ff6b5b',-5.78,2.42,1.9,pir,{emissive:'#ff6b5b',emissiveIntensity:0});scene.add(pir);reg(pir,'pir');
+  const hall=new THREE.Group();C(.01,.01,.6,'#666',-1.5,2.7,2.5,hall);const hallBulb=S(.2,'#fff4c2',-1.5,2.35,2.5,hall,{emissive:'#ffcc33',emissiveIntensity:0});scene.add(hall);reg(hall,'hall');
+  const hallLight=new THREE.PointLight(0xffd27a,0,8);hallLight.position.set(-1.5,2.3,2.5);scene.add(hallLight);
+  const doorPivot=new THREE.Group();doorPivot.position.set(3,0,1.25);B(.08,2,1.35,'#a0683a',0,1,.68,doorPivot);
+  const lockLed=S(.04,'#ff6b5b',.08,1,1.2,doorPivot,{emissive:'#ff6b5b',emissiveIntensity:.8});scene.add(doorPivot);reg(doorPivot,'door');
+  const person=new THREE.Group();C(.22,.26,.9,'#7a6cf0',0,.75,0,person);S(.2,'#f2c49b',0,1.38,0,person);C(.09,.09,.6,'#3c3577',-.1,.25,0,person);C(.09,.09,.6,'#3c3577',.1,.25,0,person);person.visible=false;scene.add(person);
+  const router=new THREE.Group();B(.9,.6,.6,'#c79a6b',2.3,.3,3.5,router);B(.6,.12,.4,'#22323a',2.3,.66,3.5,router);
+  C(.02,.02,.45,'#22323a',2.08,.92,3.62,router);C(.02,.02,.45,'#22323a',2.52,.92,3.62,router);
+  const rLed=S(.035,'#45d3a3',2.3,.68,3.71,router,{emissive:'#45d3a3',emissiveIntensity:1});scene.add(router);reg(router,'router');
+  const rings=[0,1,2].map(i=>{const r=new THREE.Mesh(new THREE.TorusGeometry(.3,.02,8,40),new THREE.MeshBasicMaterial({color:0x2fb3cc,transparent:true,opacity:.8}));r.position.set(2.3,1.25,3.5);r.rotation.x=Math.PI/2;r.userData.o=i/3;scene.add(r);return r});
+
+  /* garden */
+  const garden=new THREE.Group();
+  [[4.2,-3],[5.4,-1.6],[5.5,2.8]].forEach(([x,z])=>{C(.1,.14,.8,'#8a5a32',x,.4,z,garden);S(.55,'#3fa34d',x,1.1,z,garden)});
+  [[3.8,-.8,'#ff6b5b'],[4.1,1.2,'#ffb81c'],[5.2,.6,'#9d93ff'],[3.9,2.2,'#ff8f80']].forEach(([x,z,c])=>{C(.02,.02,.3,'#2f8a3c',x,.15,z,garden);S(.09,c,x,.33,z,garden)});
+  C(.06,.08,.25,'#666',4.6,.12,0,garden);
+  const soilS=new THREE.Group();C(.03,.03,.6,'#888',5.1,.3,-.6,soilS);B(.16,.1,.08,'#ff6b5b',5.1,.62,-.6,soilS);garden.add(soilS);
+  scene.add(garden);reg(garden,'garden');
+  const drops=[];for(let i=0;i<40;i++){const d=S(.04,'#4cc3ff',4.6,.3,0,null,{transparent:true,opacity:.85});d.visible=false;d.userData.t=Math.random();d.userData.a=Math.random()*Math.PI*2;drops.push(d)}
+
+  /* cloud */
+  const cloud=new THREE.Group();[[0,0,0,.9],[.8,-.1,.1,.7],[-.8,-.1,0,.7],[.35,.4,0,.65],[-.4,.35,.1,.6]].forEach(([x,y,z,r])=>S(r,'#ffffff',x,y,z,cloud,{emissive:'#cfe0ff',emissiveIntensity:.25}));
+  cloud.position.set(-1,7,-.5);scene.add(cloud);reg(cloud,'cloud');
+  const ROUTER=new THREE.Vector3(2.3,1.1,3.5),CLOUD=cloud.position.clone();
+
+  /* labels */
+  const labels=[];
+  function label(text,pos,color){const cv=document.createElement('canvas');cv.width=512;cv.height=120;const x=cv.getContext('2d');
+    x.fillStyle='rgba(255,255,255,.95)';x.strokeStyle=color;x.lineWidth=8;const r=50;x.beginPath();x.moveTo(r,8);x.arcTo(504,8,504,112,r);x.arcTo(504,112,8,112,r);x.arcTo(8,112,8,8,r);x.arcTo(8,8,504,8,r);x.closePath();x.fill();x.stroke();
+    x.fillStyle='#0d2b33';x.font='700 52px "IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif';x.textAlign='center';x.textBaseline='middle';x.direction='rtl';x.fillText(text,256,64);
+    const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),depthTest:false}));sp.scale.set(1.7,.4,1);sp.position.copy(pos);sp.renderOrder=5;scene.add(sp);labels.push(sp)}
+  function makeLabels(){[['مصباح ذكي',[-5.3,2.5,-3.3],'#ffb81c'],['مكيّف',[-2.6,3.1,-3.7],'#2fb3cc'],['مروحة',[0.6,3.5,-1.3],'#e2952a'],['حساس حركة',[-5.6,3,1.9],'#7a6cf0'],['قفل ذكي',[3.2,2.6,1.9],'#a0683a'],['راوتر',[2.3,1.9,3.5],'#007891'],['ري ذكي',[4.6,1.9,0],'#2fbf8f'],['السحابة (الإنترنت)',[-1,8.4,-.5],'#7a6cf0']].forEach(([t,p,c])=>label(t,new THREE.Vector3(...p),c))}
+  (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(makeLabels);
+  $('#labelsBtn').onclick=e=>{const on=e.currentTarget.getAttribute('aria-pressed')!=='true';e.currentTarget.setAttribute('aria-pressed',on);labels.forEach(l=>l.visible=on)};
+
+  /* data packets */
+  const SRC={lamp:[new THREE.Vector3(-5.3,1.85,-3.3),0xffb81c,()=>'☀ حساس الضوء ← '+H.day+'%'],ac:[new THREE.Vector3(-2.6,2.45,-3.6),0x2fb3cc,()=>'🌡 حساس الحرارة ← '+H.temp+'°'],
+    pir:[new THREE.Vector3(-5.75,2.3,1.9),0x7a6cf0,()=>'👣 حساس الحركة ← '+(performance.now()<H.hallUntil?'1':'0')],garden:[new THREE.Vector3(5.1,.65,-.6),0x2fbf8f,()=>'💧 حساس الرطوبة ← '+Math.round(H.soil)+'%'],
+    door:[new THREE.Vector3(3.1,1,2.4),0xff6b5b,()=>'🔒 القفل الذكي ← '+(doorPivot.rotation.y<-.3?'مفتوح':'مغلق')]};
+  const keys=Object.keys(SRC);const packets=[];let spawnT=0,ki=0;
+  function spawn(){const k=keys[ki++%keys.length];const [p,c,msg]=SRC[k];const m=new THREE.Mesh(new THREE.SphereGeometry(.11,12,10),new THREE.MeshBasicMaterial({color:c}));m.position.copy(p);scene.add(m);packets.push({m,p:p.clone(),t:0,msg,sent:false})}
+  function bez(a,b,t,lift){const v=a.clone().lerp(b,t);v.y+=Math.sin(t*Math.PI)*lift;return v}
+
+  /* camera goals & tour */
+  let goal=null;controls.addEventListener('start',()=>{goal=null});
+  function fly(cam,tgt){goal={cam:new THREE.Vector3(...cam),tgt:new THREE.Vector3(...tgt)}}
+  const TOUR=[
+    {cam:[10,10,12.5],tgt:[-0.8,1.2,0],t:'هذا بيت ذكي مفتوح السقف حتى نرى ما بداخله. كل جهاز فيه له «حاسة» واتصال بالإنترنت. هيا نتجول!'},
+    {cam:[-1.5,4,3],tgt:[-5,1.4,-3],t:'هنا المصباح الذكي. سأجعل الدنيا تُظلم… لاحظ: حساس الضوء شعر بالظلام فأضاء المصباح وحده 💡',a:()=>{H.day=20}},
+    {cam:[3.5,4.5,3],tgt:[-1,1.8,-2.5],t:'سأرفع الحرارة إلى 35°. المكيّف في المجلس والمروحة في غرفة النوم اشتغلا تلقائيًا 🌀',a:()=>{H.temp=35}},
+    {cam:[1,4,7.5],tgt:[-1.5,1,2.2],t:'شخص يقترب من الباب: القفل الذكي يفتح، وحساس الحركة يُضيء الممر ثم يطفئه بعد ثوانٍ 👣',a:()=>{H.walk=0}},
+    {cam:[9,4.5,4],tgt:[4.5,.6,0],t:'في الحديقة حساس رطوبة. التربة جفّت، فبدأ الري وحده، وسيتوقف عندما ترتوي 💧',a:()=>{H.soil=15;H.watering=true}},
+    {cam:[5.5,3.5,8],tgt:[2.3,1,3.5],t:'هل ترى النقاط الملونة؟ هذه بيانات! كل حساس يرسل قراءته إلى الراوتر 📶'},
+    {cam:[8,11,10],tgt:[-1,5,-.5],t:'الراوتر يرسلها عبر الإنترنت إلى السحابة ☁، ومنها تصل إلى تطبيق الجوال بجانب البيت. هذا هو إنترنت الأشياء: أشياء تستشعر وتتواصل وتتصرف!'}];
+  let step=-1;
+  function applyH(){$('#hDay').value=H.day;$('#hTemp').value=H.temp;$('#hSoil').value=Math.round(H.soil);lastLamp=H.day<40;lastFan=H.temp>30;syncHouseUI()}
+  function go(i){step=i;const s=TOUR[i];fly(s.cam,s.tgt);if(s.a){s.a();applyH()}
+    const last=i===TOUR.length-1;robotSay(`(${i+1}/${TOUR.length}) ${s.t}`,{sticky:true,actions:last?[{label:'إنهاء الجولة',fn:()=>endTour()}]:[{label:'التالي ←',fn:()=>go(i+1)},{label:'إنهاء',alt:true,fn:()=>endTour()}]})}
+  window.endTour=(silent)=>{if(step<0)return;step=-1;fly([OV.cam.x,OV.cam.y,OV.cam.z],[OV.tgt.x,OV.tgt.y,OV.tgt.z]);if(!silent)robotSay('أحسنت! الآن جرّب بنفسك: حرّك المنزلقات واضغط على الأجهزة.')};
+  $('#tourBtn').onclick=()=>{box.scrollIntoView({behavior:'smooth',block:'center'});go(0)};
+
+  /* picking */
+  const ray=new THREE.Raycaster(),ptr=new THREE.Vector2();let down=null;
+  renderer.domElement.addEventListener('pointerdown',e=>{down=[e.clientX,e.clientY]});
+  renderer.domElement.addEventListener('pointerup',e=>{if(!down||Math.hypot(e.clientX-down[0],e.clientY-down[1])>6)return;const r=renderer.domElement.getBoundingClientRect();
+    ptr.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);ray.setFromCamera(ptr,camera);const hit=ray.intersectObjects(pick,false)[0];
+    if(hit){const k=hit.object.userData.key;robotSay(INFO[k]);if(k==='pir'||k==='hall'||k==='door')H.walk=0}});
+
+  /* loop */
+  let visible=true;if(window.IntersectionObserver)new IntersectionObserver(es=>{visible=es[0].isIntersecting}).observe(box);
+  const SKYD=new THREE.Color('#bfe6f2'),SKYN=new THREE.Color('#14244a');scene.background=SKYD.clone();
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let last=performance.now(),uiT=0;
+  function tick(now){requestAnimationFrame(tick);const dt=Math.min(.05,(now-last)/1000);last=now;if(!visible)return;
+    const d=H.day/100;scene.background.copy(SKYN).lerp(SKYD,d);sun.intensity=.15+.8*d;hemi.intensity=.3+.45*d;
+    const lampOn=H.day<40;bulb.material.emissiveIntensity+=((lampOn?1.6:0)-bulb.material.emissiveIntensity)*.15;lampLight.intensity=bulb.material.emissiveIntensity*.9;
+    tvGlow.material.emissive.set(lampOn?'#1f5f6e':'#000');
+    const hot=H.temp>30;if(hot&&!reduce)blades.rotation.y+=dt*14;acLed.material.emissiveIntensity=hot?1.5:0;
+    air.forEach(a=>{a.visible=hot;if(hot){a.userData.t=(a.userData.t+dt*.7)%1;const t=a.userData.t;a.position.set(-2.6+a.userData.x,2.2-t*1.2,-3.5+t*1.6);a.material.opacity=.8*(1-t)}});
+    /* walk */
+    if(H.walk>=0){H.walk+=dt/5;const p=H.walk;person.visible=p<1;const x=5-p*10.5;person.position.set(x,0,1.9);person.rotation.y=-Math.PI/2;
+      const near=x<4.6&&x>1.8;doorPivot.rotation.y+=((near?-1.4:0)-doorPivot.rotation.y)*.12;lockLed.material.color.set(near?'#45d3a3':'#ff6b5b');lockLed.material.emissive.set(near?'#45d3a3':'#ff6b5b');
+      if(x<2.9&&x>-5.6)H.hallUntil=now+3000;if(p>=1){H.walk=-1;person.visible=false}}
+    else doorPivot.rotation.y+=(0-doorPivot.rotation.y)*.12;
+    const hallOn=now<H.hallUntil;hallBulb.material.emissiveIntensity+=((hallOn?1.6:0)-hallBulb.material.emissiveIntensity)*.2;hallLight.intensity=hallBulb.material.emissiveIntensity;pirLed.material.emissiveIntensity=hallOn?1.5:0;
+    /* watering */
+    if(H.watering){H.soil=Math.min(100,H.soil+dt*9);if(H.soil>=60){H.watering=false;robotSay('التربة ارتوت (60%)، فتوقف الري وحده. وفّرنا الماء! 🌱')}$('#hSoil').value=Math.round(H.soil)}
+    drops.forEach(dr=>{dr.visible=H.watering;if(H.watering){dr.userData.t=(dr.userData.t+dt*1.2)%1;const t=dr.userData.t,a=dr.userData.a;dr.position.set(4.6+Math.cos(a)*t*1.4,.3+Math.sin(t*Math.PI)*1.1,Math.sin(a)*t*1.4)}});
+    /* router rings */
+    rings.forEach(r=>{const t=(now/1400+r.userData.o)%1;r.scale.setScalar(.6+t*2);r.material.opacity=.8*(1-t)});rLed.material.emissiveIntensity=.6+.6*Math.sin(now/200);
+    cloud.position.y=CLOUD.y+Math.sin(now/1200)*.15;
+    /* packets */
+    spawnT+=dt;if(spawnT>.75&&!reduce){spawnT=0;spawn()}
+    for(let i=packets.length-1;i>=0;i--){const k=packets[i];k.t+=dt/2.4;const t=k.t;
+      k.m.position.copy(t<.45?bez(k.p,ROUTER,t/.45,.8):bez(ROUTER,cloud.position,(t-.45)/.55,1.5));
+      if(t>=1){if(!k.sent){hLog(k.msg());k.sent=true}scene.remove(k.m);k.m.geometry.dispose();k.m.material.dispose();packets.splice(i,1)}}
+    /* camera */
+    if(goal){const f=1-Math.pow(.03,dt);camera.position.lerp(goal.cam,f);controls.target.lerp(goal.tgt,f);if(camera.position.distanceTo(goal.cam)<.05)goal=null}
+    controls.update();renderer.render(scene,camera);
+    uiT+=dt;if(uiT>.3){uiT=0;syncHouseUI()}}
+  requestAnimationFrame(tick);
+}
+try{initHouse()}catch(e){console.error(e);$('#nogl').hidden=false}
+
+booted=true;
+setTimeout(()=>robotSay('أهلًا! أنا نبيه 🤖 مساعدكم في تحدي إنترنت الأشياء مع المعلمة أمل. اضغطوا «جولة مع نبيه» لنتجول في البيت الذكي!',{actions:[{label:'ابدأ الجولة',fn:()=>$('#tourBtn').click()},{label:'لاحقًا',alt:true,fn:()=>{$('#bubble').hidden=true}}]}),900);
 })();
 </script>
 </body>
