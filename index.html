@@ -108,10 +108,21 @@ input[type=range]{width:100%;accent-color:var(--teal)}
 
 /* flow */
 .flow{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap}
-.node{flex:1 1 160px;border-radius:16px;padding:14px;text-align:center;border:2px solid;display:grid;gap:4px}
+.flowbox{display:grid;gap:12px;border:2px dashed var(--line);border-radius:18px;padding:14px}
+.flowtitle{margin:0;font-family:var(--f-display);font-size:18px}
+.scen{display:flex;flex-wrap:wrap;gap:8px}
+.scen button{border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 14px;font-weight:700}
+.scen button[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:var(--on-teal)}
+.node{flex:1 1 160px;border-radius:16px;padding:14px;text-align:center;border:2px solid var(--line);display:grid;gap:4px;background:var(--surface);transition:border-color .3s,box-shadow .3s,transform .3s}
 .node b{font-family:var(--f-display);font-size:18px}
 .node small{color:var(--muted)}
-.arrow{align-self:center;font-family:var(--f-mono);font-size:22px;color:var(--teal)}
+.node.lit{border-color:var(--c);box-shadow:0 0 0 4px color-mix(in srgb,var(--c) 30%,transparent);transform:scale(1.03)}
+.node.lit .nd{color:var(--ink);font-weight:600}
+.arrow{align-self:center;width:44px;height:6px;border-radius:99px;background:var(--line);position:relative;overflow:hidden;flex:none}
+.arrow i{position:absolute;inset:0;background:var(--sun);transform:scaleX(0);transform-origin:right;transition:transform .5s}
+.arrow.go i{transform:scaleX(1)}
+#sendSig{justify-self:start}
+@media (max-width:760px){.flow{flex-direction:column}.arrow{width:6px;height:28px}.arrow i{transform:scaleY(0);transform-origin:top}.arrow.go i{transform:scaleY(1)}}
 
 /* Q&A */
 details.qa{border:1.5px solid var(--line);border-radius:14px;padding:10px 14px;background:var(--bg)}
@@ -268,12 +279,21 @@ footer{padding-block:20px 40px;color:var(--muted);font-size:13px;text-align:cent
         </div>
       </div>
 
-      <div class="flow" aria-label="مخطط المدخل والمعالجة والمخرج">
-        <div class="node" style="border-color:var(--sun)"><small>المدخل</small><b>الحساس <span class="mono">sensor</span></b><small>يقيس الضوء أو الحرارة</small></div>
-        <span class="arrow">←</span>
-        <div class="node" style="border-color:var(--teal)"><small>المعالجة</small><b>المتحكم</b><small>يقارن القراءة بالعتبة</small></div>
-        <span class="arrow">←</span>
-        <div class="node" style="border-color:var(--mint)"><small>المخرج</small><b>الاستجابة</b><small>مصباح يضيء، مروحة تدور</small></div>
+      <div class="flowbox">
+        <h4 class="flowtitle">تتبّع الإشارة: اختر حساسًا ثم أرسل الإشارة</h4>
+        <div class="scen" role="group" aria-label="اختر الحساس">
+          <button data-s="light" aria-pressed="true">ضوء <span class="mono">LDR</span></button>
+          <button data-s="temp" aria-pressed="false">حرارة <span class="mono">NTC</span></button>
+          <button data-s="motion" aria-pressed="false">حركة <span class="mono">PIR</span></button>
+        </div>
+        <div class="flow" id="flow" aria-live="polite">
+          <div class="node" id="n1" style="--c:var(--sun)"><small>١ · المدخل</small><b>الحساس</b><small class="nd"></small></div>
+          <span class="arrow"><i></i></span>
+          <div class="node" id="n2" style="--c:var(--teal)"><small>٢ · المعالجة</small><b>المتحكم</b><small class="nd"></small></div>
+          <span class="arrow"><i></i></span>
+          <div class="node" id="n3" style="--c:var(--mint)"><small>٣ · المخرج</small><b>الاستجابة</b><small class="nd"></small></div>
+        </div>
+        <button class="btn sun" id="sendSig">⚡ أرسل الإشارة</button>
       </div>
       <div class="qas">
         <details class="qa"><summary>كيف يعرف الجهاز متى يعمل؟</summary><p>عن طريق الحساس: عندما تقل الإضاءة يرسل إشارة لتشغيل المصباح.</p></details>
@@ -458,6 +478,18 @@ let mt;$('#walkBtn').addEventListener('click',()=>{const w=$('#walker');w.setAtt
   requestAnimationFrame(()=>{w.style.transition='none';w.getBoundingClientRect();w.style.transition='transform 1.4s ease-in-out';w.setAttribute('transform','translate(55 0)')});
   $('#hallGlow').setAttribute('opacity',.6);$('#pirVal').textContent='PIR 1';$('#simMotion').classList.add('on');$('#motionStatus span:last-child').textContent='حركة! الممر مضاء';
   clearTimeout(mt);mt=setTimeout(()=>{$('#hallGlow').setAttribute('opacity',0);$('#pirVal').textContent='PIR 0';$('#simMotion').classList.remove('on');$('#motionStatus span:last-child').textContent='لا حركة، الممر مطفأ';w.setAttribute('transform','translate(140 0)')},3000)});
+
+/* signal flow */
+const SC={light:['حساس الضوء يقرأ 25% فقط (الغرفة مظلمة)','هل الإضاءة أقل من 40%؟ نعم','المصباح يضيء تلقائيًا 💡'],
+  temp:['حساس الحرارة يقرأ 34° في الغرفة','هل الحرارة أكبر من 30°؟ نعم','المروحة تبدأ بالدوران 🌀'],
+  motion:['حساس الحركة رصد شخصًا يمر','هل توجد حركة؟ نعم','إضاءة الممر تعمل 3 ثوانٍ ✨']};
+let scen='light',sigT=[];
+function resetFlow(){sigT.forEach(clearTimeout);sigT=[];['n1','n2','n3'].forEach((id,i)=>{const n=$('#'+id);n.classList.remove('lit');n.querySelector('.nd').textContent=SC[scen][i]});$$('#flow .arrow').forEach(a=>a.classList.remove('go'))}
+$$('.scen button').forEach(b=>b.onclick=()=>{scen=b.dataset.s;$$('.scen button').forEach(x=>x.setAttribute('aria-pressed',x===b));resetFlow()});
+$('#sendSig').onclick=()=>{resetFlow();const ar=$$('#flow .arrow');
+  [()=>$('#n1').classList.add('lit'),()=>ar[0].classList.add('go'),()=>$('#n2').classList.add('lit'),()=>ar[1].classList.add('go'),()=>{$('#n3').classList.add('lit');toast('وصلت الإشارة! الجهاز استجاب')}]
+  .forEach((f,i)=>sigT.push(setTimeout(f,i*650)))};
+resetFlow();
 
 /* calculator */
 function calc(){const w=+$('#cWatt').value||0,c=+$('#cCount').value||0,h=+$('#cHours').value||0,s=Math.min(+$('#cSmart').value||0,h);
