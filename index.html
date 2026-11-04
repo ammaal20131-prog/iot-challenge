@@ -85,10 +85,56 @@ button{font:inherit;cursor:pointer}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .grid2>*,.grid3>*{min-width:0}
 
-/* concept cards */
-.concept{border-radius:18px;padding:16px;background:var(--bg);border:1.5px solid var(--line);display:grid;gap:8px}
-.concept .ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;color:var(--on-teal)}
-.concept h4{margin:0;font-family:var(--f-display);font-size:18px}
+/* concept explorer */
+.iotdef{background:var(--teal);color:var(--on-teal);border-radius:20px;padding:20px;display:grid;gap:14px;position:relative;overflow:hidden}
+.iotdef::after{content:"";position:absolute;inset:0;background-image:radial-gradient(color-mix(in srgb,var(--on-teal) 18%,transparent) 1.5px,transparent 1.5px);background-size:18px 18px;opacity:.5;pointer-events:none}
+.iotdef>*{position:relative;z-index:1}
+.iotq{font-family:var(--f-display);font-size:15px;opacity:.85}
+.iota{font-family:var(--f-display);font-size:clamp(20px,3.4vw,26px);font-weight:800;line-height:1.5}
+.iota b{background:var(--sun);color:#2a1d00;padding:0 8px;border-radius:8px}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tri{background:var(--surface);color:var(--ink);border-radius:16px;padding:12px;display:grid;gap:2px;border-top:6px solid var(--c);animation:pop .6s both}
+.tri:nth-child(2){animation-delay:.15s}.tri:nth-child(3){animation-delay:.3s}
+@keyframes pop{from{transform:translateY(8px) scale(.96)}to{transform:none}}
+.tri .tn{width:28px;height:28px;border-radius:50%;background:var(--c);color:#0d2b33;display:grid;place-items:center;font-weight:800;font-family:var(--f-display)}
+.tri b{font-family:var(--f-display);font-size:20px}
+.tri small{color:var(--muted);font-size:13px;line-height:1.5}
+.vid{display:flex;gap:12px;align-items:center;background:color-mix(in srgb,var(--on-teal) 14%,transparent);border:1.5px solid color-mix(in srgb,var(--on-teal) 35%,transparent);border-radius:14px;padding:10px 14px;color:var(--on-teal);text-decoration:none}
+.vid .play{width:40px;height:40px;border-radius:50%;background:var(--coral);color:#fff;display:grid;place-items:center;flex:none;font-size:16px}
+.vid span{display:grid}.vid small{opacity:.85;font-weight:400}
+.pick{font-weight:700;font-family:var(--f-display);font-size:18px}
+.sensors{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.sens{border:2.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:18px;padding:12px 8px;display:grid;justify-items:center;gap:2px;transition:transform .2s,border-color .2s,background .2s}
+.sens .sic{font-size:28px;line-height:1.2}
+.sens b{font-family:var(--f-display);font-size:18px}
+.sens .mono{font-size:12px;color:var(--muted)}
+.sens:hover{transform:translateY(-2px)}
+.sens[aria-selected="true"]{border-color:var(--c);background:color-mix(in srgb,var(--c) 18%,var(--surface));transform:translateY(-3px);box-shadow:0 8px 0 -3px var(--c)}
+.spanel{display:grid;grid-template-columns:240px 1fr;gap:18px;border:2.5px solid var(--sc,var(--sun));border-radius:22px;padding:18px;background:var(--bg);animation:fadein .35s}
+@keyframes fadein{from{transform:translateY(6px)}to{transform:none}}
+.sart{border-radius:16px;background:var(--surface);display:grid;place-items:center;min-height:200px;border:1.5px solid var(--line)}
+.sart svg{width:100%;max-width:220px}
+.sinfo{display:grid;gap:12px;min-width:0;align-content:start}
+.sinfo h4{margin:0;font-family:var(--f-display);font-size:24px}
+.sOne{font-size:18px;font-weight:600}
+.ssteps{margin:0;padding:0;list-style:none;display:grid;gap:8px;counter-reset:s}
+.ssteps li{counter-increment:s;display:flex;gap:10px;align-items:flex-start}
+.ssteps li::before{content:counter(s);flex:none;width:26px;height:26px;border-radius:8px;background:var(--sc,var(--sun));color:#0d2b33;font-weight:800;display:grid;place-items:center;font-size:14px;margin-top:2px}
+.where{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.where .lbl{font-weight:700}
+.wchips{display:flex;flex-wrap:wrap;gap:6px}
+.wchips span{background:var(--surface);border:1.5px solid var(--line);border-radius:999px;padding:2px 10px;font-size:14px}
+.fact{background:var(--sun-soft);border-radius:12px;padding:10px 12px;font-size:15px}
+.mini{border-top:2px dashed var(--line);padding-top:10px;display:grid;gap:8px}
+.mq{font-weight:700}
+.ldr-ray{animation:ray 1.6s ease-in-out infinite}
+@keyframes ray{0%,100%{opacity:.25}50%{opacity:1}}
+.ntc-fill{animation:rise 2.4s ease-in-out infinite alternate}
+@keyframes rise{from{transform:translateY(30px)}to{transform:none}}
+.pir-wave{animation:wave 1.8s ease-out infinite;transform-origin:30px 70px;transform-box:view-box}
+.pir-wave:nth-of-type(2){animation-delay:.6s}.pir-wave:nth-of-type(3){animation-delay:1.2s}
+@keyframes wave{from{opacity:.9;transform:scale(.4)}to{opacity:0;transform:scale(1.4)}}
+@media (max-width:760px){.trio{grid-template-columns:1fr}.spanel{grid-template-columns:1fr}.sart{min-height:170px}}
 
 /* simulators */
 .sim{border:2px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:12px;background:var(--bg)}
@@ -237,12 +283,36 @@ footer{padding-block:20px 40px;color:var(--muted);font-size:13px;text-align:cent
 
     <article class="station">
       <div class="sthead"><span class="tag">المرحلة الأولى</span><h3>المفاهيم الأساسية</h3><button class="check" data-task="d1a" aria-pressed="false">✓ أنهيتها</button></div>
-      <p>إنترنت الأشياء (<span class="mono">IoT</span>) يعني أجهزة متصلة تقرأ البيئة عبر <b>حساسات</b>، وتتخذ قرارًا بـ<b>البرمجة</b>، ثم تنفّذ <b>استجابة</b>. شاهد فيديو «بيت المستقبل» ثم ناقش دور كل عامل:
-        <a href="https://youtu.be/pRdYtwURBag?si=Xi8zyyq_Aj1StB0z" target="_blank" rel="noopener">مشاهدة الفيديو ↗</a></p>
-      <div class="grid3">
-        <div class="concept"><div class="ic" style="background:var(--sun);color:#2a1d00">ضوء</div><h4>حساس الضوء <span class="mono">LDR</span></h4><p class="muted">يعمل المصباح الذكي عندما يستشعر الحساس انخفاض الإضاءة الطبيعية.</p></div>
-        <div class="concept"><div class="ic" style="background:var(--coral)">حرارة</div><h4>حساس الحرارة <span class="mono">NTC</span></h4><p class="muted">يُشغَّل المكيّف أو المروحة تلقائيًا عندما ترتفع درجة الحرارة.</p></div>
-        <div class="concept"><div class="ic" style="background:var(--violet)">حركة</div><h4>حساس الحركة <span class="mono">PIR</span></h4><p class="muted">يُضيء المصباح تلقائيًا عند مرور شخص أمام الحساس.</p></div>
+      <div class="iotdef">
+        <p class="iotq">ما هو إنترنت الأشياء <span class="mono">IoT</span>؟</p>
+        <p class="iota">أجهزة عادية في بيتك صار لها <b>حواس</b> و<b>عقل</b> و<b>اتصال</b>، فتتصرف وحدها.</p>
+        <div class="trio">
+          <div class="tri" style="--c:var(--sun)"><span class="tn">١</span><b>يستشعر</b><small>الحساس يقرأ الضوء أو الحرارة أو الحركة</small></div>
+          <div class="tri" style="--c:var(--teal)"><span class="tn">٢</span><b>يفكّر</b><small>البرنامج يقارن القراءة بالعتبة</small></div>
+          <div class="tri" style="--c:var(--mint)"><span class="tn">٣</span><b>يتصرّف</b><small>مصباح يضيء، مروحة تدور</small></div>
+        </div>
+        <a class="vid" href="https://youtu.be/pRdYtwURBag?si=Xi8zyyq_Aj1StB0z" target="_blank" rel="noopener"><span class="play">▶</span><span><b>شاهد: بيت المستقبل</b><small>ثم ناقش دور الضوء والحرارة والحركة</small></span></a>
+      </div>
+
+      <p class="pick">اضغط على حساس لتتعرّف عليه:</p>
+      <div class="sensors" role="tablist" aria-label="الحساسات">
+        <button class="sens" role="tab" data-k="ldr" aria-selected="true" style="--c:var(--sun)"><span class="sic">☀</span><b>الضوء</b><span class="mono">LDR</span></button>
+        <button class="sens" role="tab" data-k="ntc" aria-selected="false" style="--c:var(--coral)"><span class="sic">🌡</span><b>الحرارة</b><span class="mono">NTC</span></button>
+        <button class="sens" role="tab" data-k="pir" aria-selected="false" style="--c:var(--violet)"><span class="sic">👣</span><b>الحركة</b><span class="mono">PIR</span></button>
+      </div>
+      <div class="spanel" id="spanel" role="tabpanel" aria-live="polite">
+        <div class="sart" id="sart"></div>
+        <div class="sinfo">
+          <h4 id="sName"></h4>
+          <p class="sOne" id="sOne"></p>
+          <ol class="ssteps" id="sSteps"></ol>
+          <div class="where"><span class="lbl">تجده في:</span><span id="sWhere" class="wchips"></span></div>
+          <div class="fact"><b>هل تعلم؟</b> <span id="sFact"></span></div>
+          <div class="mini">
+            <p id="sQ" class="mq"></p>
+            <div class="qopt" id="sOpts"></div>
+          </div>
+        </div>
       </div>
     </article>
 
@@ -462,6 +532,36 @@ function refreshProgress(){
 }
 $$('.check').forEach(c=>{c.setAttribute('aria-pressed',!!done[c.dataset.task]);c.addEventListener('click',()=>{done[c.dataset.task]=!done[c.dataset.task];c.setAttribute('aria-pressed',done[c.dataset.task]);store.set('iot-done',done);refreshProgress();if(done[c.dataset.task])toast('أحسنت! مهمة مكتملة')})});
 refreshProgress();
+
+/* sensor explorer */
+const SENS={
+ ldr:{c:'var(--sun)',name:'حساس الضوء LDR',one:'«عين» الجهاز: يعرف هل المكان مضيء أم مظلم.',
+  steps:['ضوء الشمس أو المصباح يسقط على الحساس.','كلما زاد الضوء قلّت مقاومته، فتتغير الإشارة الكهربائية.','المتحكم يقرأ النسبة: أقل من 40% يعني ظلامًا، فيضيء المصباح.'],
+  where:['إنارة الشوارع','سطوع شاشة الجوال','مصابيح الحديقة','الفصل الذكي'],
+  fact:'أعمدة إنارة الشوارع تضيء وحدها عند الغروب لأن فيها حساس ضوء.',
+  q:'الغرفة أصبحت مظلمة. ماذا يفعل المصباح الذكي؟',opts:['ينطفئ','يضيء تلقائيًا','لا يتغير'],a:1,
+  art:`<svg viewBox="0 0 200 160" aria-hidden="true"><circle cx="50" cy="45" r="22" fill="var(--sun)"/>${[0,45,90,135,180,225,270,315].map(d=>`<line class="ldr-ray" x1="50" y1="45" x2="${50+36*Math.cos(d*Math.PI/180)}" y2="${45+36*Math.sin(d*Math.PI/180)}" stroke="var(--sun)" stroke-width="4" stroke-linecap="round" style="animation-delay:${d/400}s"/>`).join('')}<path d="M75 65 L125 95" stroke="var(--sun)" stroke-width="3" stroke-dasharray="6 6"/><circle cx="145" cy="105" r="24" fill="var(--surface)" stroke="var(--ink)" stroke-width="4"/><path d="M130 100 q5 -8 10 0 t10 0 t10 0" fill="none" stroke="var(--coral)" stroke-width="3"/><line x1="135" y1="128" x2="135" y2="152" stroke="var(--ink)" stroke-width="3"/><line x1="155" y1="128" x2="155" y2="152" stroke="var(--ink)" stroke-width="3"/></svg>`},
+ ntc:{c:'var(--coral)',name:'حساس الحرارة NTC',one:'«جلد» الجهاز: يشعر بالحر والبرد.',
+  steps:['الحساس يلامس هواء الغرفة.','كلما ارتفعت الحرارة قلّت مقاومته، وهذا معنى الحرف N (سالب).','المتحكم يقارن القراءة بالعتبة: فوق 30° تشتغل المروحة أو المكيّف.'],
+  where:['المكيّف','الفرن','ميزان الحرارة الرقمي','محرك السيارة'],
+  fact:'المكيّف في بيتك يطفئ نفسه ويشغّلها مرات كثيرة في اليوم بناءً على قراءة حساس حرارة.',
+  q:'الحرارة 35° والعتبة 30°. ماذا يحدث؟',opts:['تشتغل المروحة','تنطفئ المروحة','يضيء المصباح'],a:0,
+  art:`<svg viewBox="0 0 200 160" aria-hidden="true"><rect x="84" y="14" width="32" height="104" rx="16" fill="var(--surface)" stroke="var(--ink)" stroke-width="4"/><clipPath id="tc"><rect x="88" y="18" width="24" height="100" rx="12"/></clipPath><g clip-path="url(#tc)"><rect class="ntc-fill" x="88" y="50" width="24" height="80" fill="var(--coral)"/></g><circle cx="100" cy="128" r="22" fill="var(--coral)" stroke="var(--ink)" stroke-width="4"/>${[30,50,70,90].map(y=>`<line x1="120" y1="${y}" x2="132" y2="${y}" stroke="var(--ink)" stroke-width="3"/>`).join('')}<text x="140" y="54" font-family="JetBrains Mono,monospace" font-size="14" fill="var(--coral)" font-weight="700">30°</text><line x1="116" y1="50" x2="170" y2="50" stroke="var(--coral)" stroke-dasharray="4 4" stroke-width="2"/></svg>`},
+ pir:{c:'var(--violet)',name:'حساس الحركة PIR',one:'«حارس» الجهاز: يلاحظ وجود شخص يتحرك.',
+  steps:['جسم الإنسان يطلق حرارة غير مرئية (أشعة تحت حمراء).','عندما يتحرك الشخص يتغير مقدار هذه الأشعة أمام الحساس.','الحساس يرسل 1 للمتحكم، فيضيء المصباح ثم ينطفئ بعد ثوانٍ من غياب الحركة.'],
+  where:['دورات المياه العامة','أجهزة الإنذار','ممرات المدرسة','كاميرات المراقبة'],
+  fact:'كلمة Passive تعني أن الحساس لا يرسل أي أشعة، بل يستقبل فقط حرارة الأجسام.',
+  q:'لماذا يوفّر حساس الحركة الكهرباء؟',opts:['يجعل المصباح أقوى','يشغّل المصباح عند الحاجة فقط','يبرّد الغرفة'],a:1,
+  art:`<svg viewBox="0 0 200 160" aria-hidden="true"><path class="pir-wave" d="M40 50 A30 30 0 0 1 40 90" fill="none" stroke="var(--violet)" stroke-width="4"/><path class="pir-wave" d="M40 50 A30 30 0 0 1 40 90" fill="none" stroke="var(--violet)" stroke-width="4"/><path class="pir-wave" d="M40 50 A30 30 0 0 1 40 90" fill="none" stroke="var(--violet)" stroke-width="4"/><rect x="10" y="52" width="22" height="36" rx="6" fill="var(--ink)"/><circle cx="26" cy="70" r="7" fill="var(--violet)"/><circle cx="150" cy="44" r="13" fill="var(--violet)"/><path d="M150 58 v40 M150 70 l-16 14 M150 70 l16 10 M150 98 l-14 28 M150 98 l14 28" stroke="var(--violet)" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M118 140 h64" stroke="var(--line)" stroke-width="4"/></svg>`}};
+function showSensor(k){const s=SENS[k];$('#spanel').style.setProperty('--sc',s.c);
+  $('#spanel').style.animation='none';$('#spanel').offsetWidth;$('#spanel').style.animation='';
+  $('#sart').innerHTML=s.art;$('#sName').textContent=s.name;$('#sOne').textContent=s.one;
+  $('#sSteps').innerHTML='';s.steps.forEach(t=>{const li=document.createElement('li');li.textContent=t;$('#sSteps').append(li)});
+  $('#sWhere').innerHTML='';s.where.forEach(t=>{const x=document.createElement('span');x.textContent=t;$('#sWhere').append(x)});
+  $('#sFact').textContent=s.fact;$('#sQ').textContent='سؤال سريع: '+s.q;
+  const o=$('#sOpts');o.innerHTML='';s.opts.forEach((t,j)=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>{if(o.dataset.a)return;o.dataset.a=1;b.classList.add(j===s.a?'right':'wrong');o.children[s.a].classList.add('right');toast(j===s.a?'إجابة صحيحة! 🎉':'حاول مع الحساس التالي')};o.append(b)});delete o.dataset.a;
+  $$('.sens').forEach(b=>b.setAttribute('aria-selected',b.dataset.k===k))}
+$$('.sens').forEach(b=>b.onclick=()=>showSensor(b.dataset.k));showSensor('ldr');
 
 /* light sim */
 function light(){const v=+$('#ldr').value;$('#ldrVal').textContent='LDR '+v+'%';const on=v<40;
