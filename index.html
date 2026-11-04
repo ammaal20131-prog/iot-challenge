@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="author" content="أمل الشهري">
+<style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>تحدي إنترنت الأشياء</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: a "circuit board" page — a hero with a 3-day route, then one day at a time as a sequence of task stations wired together */
+:root{
+  --bg:#f3f8f9; --surface:#ffffff; --ink:#0d2b33; --muted:#557079; --line:#d3e3e7;
+  --teal:#007891; --teal-soft:#d9eef2; --sun:#ffb81c; --sun-soft:#fff1cc; --coral:#ff6b5b; --mint:#2fbf8f; --violet:#7a6cf0;
+  --on-teal:#ffffff; --trace:rgba(0,120,145,.09); --shadow:0 10px 30px -18px rgba(13,43,51,.35);
+  --f-display:"Baloo Bhaijaan 2","IBM Plex Sans Arabic",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans Arabic",system-ui,"Segoe UI",Tahoma,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#071a1f; --surface:#0f262d; --ink:#e6f4f6; --muted:#93b3bb; --line:#1f3f48;
+  --teal:#2fb3cc; --teal-soft:#123842; --sun:#ffc84a; --sun-soft:#3a3010; --coral:#ff8a7c; --mint:#45d3a3; --violet:#9d93ff;
+  --on-teal:#04161b; --trace:rgba(47,179,204,.08); --shadow:0 10px 30px -18px rgba(0,0,0,.8); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#071a1f; --surface:#0f262d; --ink:#e6f4f6; --muted:#93b3bb; --line:#1f3f48;
+  --teal:#2fb3cc; --teal-soft:#123842; --sun:#ffc84a; --sun-soft:#3a3010; --coral:#ff8a7c; --mint:#45d3a3; --violet:#9d93ff;
+  --on-teal:#04161b; --trace:rgba(47,179,204,.08); --shadow:0 10px 30px -18px rgba(0,0,0,.8); color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.75;
+  background-image:linear-gradient(var(--trace) 1px,transparent 1px),linear-gradient(90deg,var(--trace) 1px,transparent 1px);
+  background-size:28px 28px}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);line-height:1.3;text-wrap:balance;margin:0}
+p{margin:0}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px;border-radius:8px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+
+/* HERO */
+.hero{padding-block:36px 20px;display:grid;grid-template-columns:1.25fr 1fr;gap:28px;align-items:center}
+.eyebrow{display:inline-flex;gap:8px;align-items:center;background:var(--teal);color:var(--on-teal);font-weight:700;font-size:13px;padding:4px 12px;border-radius:999px;letter-spacing:.02em}
+.hero h1{font-size:clamp(34px,6vw,58px);font-weight:800;margin-top:12px;color:var(--ink)}
+.hero h1 span{color:var(--teal);position:relative}
+.hero h1 span::after{content:"";position:absolute;inset-inline:0;bottom:.12em;height:.22em;background:var(--sun);opacity:.55;z-index:-1;border-radius:4px}
+.teacher{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:15px;color:var(--ink)}
+.teacher span{background:var(--sun-soft);border:1.5px solid var(--sun);border-radius:10px;padding:2px 10px}
+.teacher b{color:var(--teal)}
+.hero .lead{color:var(--muted);margin-top:10px;max-width:52ch}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:500}
+.house{width:100%;max-width:380px;justify-self:center}
+.house .pulse{animation:pulse 2.4s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
+@keyframes pulse{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:.9;transform:scale(1.15)}}
+
+/* DAY ROUTE */
+.route{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding-block:8px 24px;position:relative}
+.daybtn{all:unset;box-sizing:border-box;cursor:pointer;background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:14px 16px;display:grid;gap:4px;position:relative;transition:transform .2s,border-color .2s}
+.daybtn:hover{transform:translateY(-3px)}
+.daybtn:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.daybtn[aria-selected="true"]{border-color:var(--teal);box-shadow:var(--shadow)}
+.daybtn .n{font-family:var(--f-display);font-size:13px;color:var(--muted);font-weight:600}
+.daybtn .t{font-family:var(--f-display);font-weight:800;font-size:20px}
+.daybtn .s{font-size:13px;color:var(--muted)}
+.bar{height:8px;border-radius:99px;background:var(--teal-soft);overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--mint));width:0;transition:width .5s}
+.daybtn .led{position:absolute;top:14px;inset-inline-end:14px;width:12px;height:12px;border-radius:50%;background:var(--line)}
+.daybtn.done .led{background:var(--mint);box-shadow:0 0 0 4px color-mix(in srgb,var(--mint) 25%,transparent)}
+
+/* DAY PANEL */
+.day{display:grid;gap:22px;padding-bottom:48px}
+.dayhead{display:flex;flex-wrap:wrap;gap:12px;align-items:end;justify-content:space-between;border-bottom:2px dashed var(--line);padding-bottom:12px}
+.dayhead h2{font-size:clamp(26px,4vw,36px)}
+.dayhead p{color:var(--muted)}
+.station{background:var(--surface);border:1.5px solid var(--line);border-radius:22px;padding:22px;display:grid;gap:16px;min-width:0}
+.sthead{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-family:var(--f-mono);font-size:12px;font-weight:700;background:var(--sun-soft);color:var(--ink);border:1.5px solid var(--sun);border-radius:8px;padding:2px 8px}
+.station h3{font-size:22px;font-weight:800}
+.check{margin-inline-start:auto;display:inline-flex;gap:8px;align-items:center;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);padding:6px 12px;border-radius:999px;font-size:14px;font-weight:600}
+.check[aria-pressed="true"]{background:var(--mint);border-color:var(--mint);color:#04261b}
+.muted{color:var(--muted)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid2>*,.grid3>*{min-width:0}
+
+/* concept cards */
+.concept{border-radius:18px;padding:16px;background:var(--bg);border:1.5px solid var(--line);display:grid;gap:8px}
+.concept .ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;color:var(--on-teal)}
+.concept h4{margin:0;font-family:var(--f-display);font-size:18px}
+
+/* simulators */
+.sim{border:2px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:12px;background:var(--bg)}
+.sim h4{margin:0;font-family:var(--f-display);font-size:18px;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.readout{font-family:var(--f-mono);font-size:13px;background:var(--surface);border:1.5px solid var(--line);border-radius:8px;padding:2px 8px;direction:ltr}
+input[type=range]{width:100%;accent-color:var(--teal)}
+.stage{height:120px;border-radius:14px;background:var(--surface);border:1.5px solid var(--line);display:grid;place-items:center;position:relative;overflow:hidden}
+.status{font-weight:700;font-size:14px;display:flex;gap:8px;align-items:center}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--line);flex:none}
+.on .dot{background:var(--mint);box-shadow:0 0 10px var(--mint)}
+.btn{border:none;background:var(--teal);color:var(--on-teal);border-radius:12px;padding:10px 16px;font-weight:700}
+.btn.ghost{background:transparent;color:var(--teal);border:2px solid var(--teal)}
+.btn.sun{background:var(--sun);color:#2a1d00}
+.fan{transform-origin:50% 50%;transform-box:fill-box}
+.spin{animation:spin .5s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* flow */
+.flow{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap}
+.node{flex:1 1 160px;border-radius:16px;padding:14px;text-align:center;border:2px solid;display:grid;gap:4px}
+.node b{font-family:var(--f-display);font-size:18px}
+.node small{color:var(--muted)}
+.arrow{align-self:center;font-family:var(--f-mono);font-size:22px;color:var(--teal)}
+
+/* Q&A */
+details.qa{border:1.5px solid var(--line);border-radius:14px;padding:10px 14px;background:var(--bg)}
+details.qa summary{cursor:pointer;font-weight:700;list-style:none;display:flex;gap:10px;align-items:center}
+details.qa summary::before{content:"؟";font-family:var(--f-display);background:var(--violet);color:#fff;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;flex:none}
+details.qa[open] summary{margin-bottom:6px}
+details.qa p{color:var(--muted);padding-inline-start:36px}
+.qas{display:grid;gap:10px}
+
+/* calculator */
+.field{display:grid;gap:4px}
+.field label{font-weight:600;font-size:14px}
+.field input,.field select,.field textarea{font:inherit;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:8px 10px;width:100%}
+.big{font-family:var(--f-display);font-size:40px;font-weight:800;color:var(--teal);line-height:1.1}
+.stat{background:var(--teal-soft);border-radius:16px;padding:14px;display:grid;gap:2px}
+
+/* home builder */
+.homegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.room{border:2px dashed var(--line);border-radius:14px;padding:10px;min-height:96px;display:grid;align-content:start;gap:6px;background:var(--bg);cursor:pointer;text-align:start;color:var(--ink)}
+.room.sel{border-style:solid;border-color:var(--teal);background:var(--teal-soft)}
+.room b{font-family:var(--f-display);font-size:15px}
+.pills{display:flex;flex-wrap:wrap;gap:4px}
+.pill{font-size:12px;border-radius:99px;padding:1px 8px;font-weight:600;color:#0d2b33}
+.palette{display:flex;flex-wrap:wrap;gap:8px}
+.dev{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;font-size:14px;font-weight:600;display:inline-flex;gap:6px;align-items:center}
+.dev i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.meters{display:grid;gap:10px}
+.meter{display:grid;grid-template-columns:70px 1fr 36px;gap:8px;align-items:center;font-size:14px;font-weight:600}
+.meter .track{height:12px;background:var(--line);border-radius:99px;overflow:hidden}
+.meter .track i{display:block;height:100%;width:0;border-radius:99px;transition:width .4s}
+
+/* code blocks */
+.blocks{display:grid;gap:8px;direction:rtl}
+.blk{border-radius:12px;padding:10px 12px;font-weight:700;display:flex;flex-wrap:wrap;gap:8px;align-items:center;color:#fff}
+.blk select,.blk input{font:inherit;font-weight:700;border:none;border-radius:8px;padding:2px 8px;background:rgba(255,255,255,.92);color:#0d2b33}
+.blk input{width:70px;font-family:var(--f-mono)}
+.blk.if{background:#e2952a}.blk.then{background:#4c97ff;margin-inline-start:22px}.blk.else{background:#9966ff;margin-inline-start:22px}
+.console{font-family:var(--f-mono);font-size:13px;background:#0b1f24;color:#a8f0d5;border-radius:12px;padding:12px;min-height:110px;direction:ltr;text-align:left;white-space:pre-wrap;overflow-x:auto}
+
+/* checklist & report */
+.list{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.list label{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg);cursor:pointer}
+.list input{accent-color:var(--mint);width:18px;height:18px;margin-top:4px;flex:none}
+.report{background:var(--bg);border:1.5px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:8px;white-space:pre-wrap}
+.report h4{margin:0;font-family:var(--f-display);font-size:20px;color:var(--teal)}
+.quiz{display:grid;gap:12px}
+.qopt{display:flex;flex-wrap:wrap;gap:8px}
+.qopt button{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:6px 12px}
+.qopt button.right{background:var(--mint);border-color:var(--mint);color:#04261b}
+.qopt button.wrong{background:var(--coral);border-color:var(--coral);color:#2a0500}
+a{color:var(--teal);font-weight:600}
+.note{background:var(--sun-soft);border:1.5px solid var(--sun);border-radius:14px;padding:10px 14px;font-size:14px}
+footer{padding-block:20px 40px;color:var(--muted);font-size:13px;text-align:center}
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));inset-inline-start:50%;transform:translateX(50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .3s;z-index:20}
+.toast.show{opacity:1}
+
+@media (max-width:760px){
+  .hero{grid-template-columns:1fr}
+  .house{max-width:260px;order:-1}
+  .route{grid-template-columns:1fr}
+  .grid3,.grid2{grid-template-columns:1fr}
+  .homegrid{grid-template-columns:1fr 1fr}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div dir="rtl" lang="ar">
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <span class="eyebrow">مجال العلوم والتقنية · المرحلة المتوسطة</span>
+      <h1>تحدي <span>إنترنت الأشياء</span></h1>
+      <div class="teacher"><span>المعلمة: <b>أمل الشهري</b></span><span>حصة النشاط · الصف الثاني متوسط (ج)</span></div>
+      <p class="lead">ابنِ منزلك الذكي في ثلاثة أيام: تعرّف على الحساسات، جرّبها بيدك، صمّم نموذجك وبرمجه، ثم اعرضه أمام اللجنة.</p>
+      <div class="meta">
+        <span class="chip">٧ حصص نشاط</span>
+        <span class="chip"><span class="mono">315</span> دقيقة</span>
+        <span class="chip">٦ مهام</span>
+        <span class="chip">Micro:bit · Arduino · Scratch</span>
+      </div>
+    </div>
+    <svg class="house" viewBox="0 0 300 240" aria-hidden="true">
+      <g stroke="var(--teal)" stroke-width="2" fill="none" opacity=".5">
+        <path d="M20 220 H70 V200"/><path d="M280 220 H230 V190"/><path d="M150 30 V8 H230"/>
+      </g>
+      <path d="M50 110 L150 30 L250 110" fill="none" stroke="var(--ink)" stroke-width="6" stroke-linejoin="round"/>
+      <rect x="70" y="105" width="160" height="115" rx="10" fill="var(--surface)" stroke="var(--ink)" stroke-width="4"/>
+      <rect x="92" y="130" width="46" height="40" rx="6" fill="var(--sun)"/>
+      <rect x="162" y="130" width="46" height="40" rx="6" fill="var(--teal-soft)" stroke="var(--teal)" stroke-width="2"/>
+      <rect x="132" y="180" width="36" height="40" rx="4" fill="var(--teal)"/>
+      <circle cx="150" cy="80" r="12" fill="var(--coral)"/>
+      <circle class="pulse" cx="150" cy="80" r="26" fill="none" stroke="var(--coral)" stroke-width="3"/>
+      <circle cx="20" cy="220" r="7" fill="var(--mint)"/><circle cx="280" cy="220" r="7" fill="var(--violet)"/><circle cx="230" cy="8" r="6" fill="var(--sun)"/>
+      <text x="185" y="156" font-family="JetBrains Mono,monospace" font-size="13" fill="var(--teal)" text-anchor="middle">24°</text>
+    </svg>
+  </header>
+
+  <nav class="route" role="tablist" aria-label="أيام البرنامج">
+    <button class="daybtn" role="tab" id="tab-1" data-day="1" aria-selected="true"><span class="led"></span><span class="n">اليوم الأول · الحصتان ١–٢</span><span class="t">أستكشف</span><span class="s">المفاهيم وتحليل الظاهرة</span><span class="bar"><i></i></span></button>
+    <button class="daybtn" role="tab" id="tab-2" data-day="2" aria-selected="false"><span class="led"></span><span class="n">اليوم الثاني · الحصص ٣–٥</span><span class="t">أصمّم وأبرمج</span><span class="s">الأثر، النموذج، البرمجة</span><span class="bar"><i></i></span></button>
+    <button class="daybtn" role="tab" id="tab-3" data-day="3" aria-selected="false"><span class="led"></span><span class="n">اليوم الثالث · الحصتان ٦–٧</span><span class="t">أعرض وأشارك</span><span class="s">المسابقة والتقرير</span><span class="bar"><i></i></span></button>
+  </nav>
+
+  <!-- ================= DAY 1 ================= -->
+  <section class="day" id="day-1" role="tabpanel" aria-labelledby="tab-1">
+    <div class="dayhead">
+      <div><h2>اليوم الأول: كيف يشعر البيت بما حوله؟</h2>
+      <p>الأجهزة الذكية تستشعر الضوء والحرارة والحركة، وتستجيب تلقائيًا فتوفّر الطاقة وتزيد الراحة.</p></div>
+    </div>
+
+    <article class="station">
+      <div class="sthead"><span class="tag">المرحلة الأولى</span><h3>المفاهيم الأساسية</h3><button class="check" data-task="d1a" aria-pressed="false">✓ أنهيتها</button></div>
+      <p>إنترنت الأشياء (<span class="mono">IoT</span>) يعني أجهزة متصلة تقرأ البيئة عبر <b>حساسات</b>، وتتخذ قرارًا بـ<b>البرمجة</b>، ثم تنفّذ <b>استجابة</b>. شاهد فيديو «بيت المستقبل» ثم ناقش دور كل عامل:
+        <a href="https://youtu.be/pRdYtwURBag?si=Xi8zyyq_Aj1StB0z" target="_blank" rel="noopener">مشاهدة الفيديو ↗</a></p>
+      <div class="grid3">
+        <div class="concept"><div class="ic" style="background:var(--sun);color:#2a1d00">ضوء</div><h4>حساس الضوء <span class="mono">LDR</span></h4><p class="muted">يعمل المصباح الذكي عندما يستشعر الحساس انخفاض الإضاءة الطبيعية.</p></div>
+        <div class="concept"><div class="ic" style="background:var(--coral)">حرارة</div><h4>حساس الحرارة <span class="mono">NTC</span></h4><p class="muted">يُشغَّل المكيّف أو المروحة تلقائيًا عندما ترتفع درجة الحرارة.</p></div>
+        <div class="concept"><div class="ic" style="background:var(--violet)">حركة</div><h4>حساس الحركة <span class="mono">PIR</span></h4><p class="muted">يُضيء المصباح تلقائيًا عند مرور شخص أمام الحساس.</p></div>
+      </div>
+    </article>
+
+    <article class="station">
+      <div class="sthead"><span class="tag">المهمة ١</span><h3>مختبر الحساسات: حلّل الظاهرة التقنية</h3><button class="check" data-task="d1b" aria-pressed="false">✓ أنهيتها</button></div>
+      <p class="muted">حرّك المنزلقات وراقب كيف يغيّر الجهاز حالته وحده. هذه محاكاة لما يبنيه المعلم على <span class="mono">Arduino</span> أو <span class="mono">Micro:bit</span>.</p>
+      <div class="grid3">
+        <div class="sim" id="simLight">
+          <h4>المصباح الذكي <span class="readout" id="ldrVal">LDR 70%</span></h4>
+          <div class="stage" id="lightStage">
+            <svg viewBox="0 0 120 100" width="110" aria-hidden="true"><circle id="bulbGlow" cx="60" cy="40" r="38" fill="var(--sun)" opacity="0"/><path d="M60 12a26 26 0 0 0-14 48v10h28V60a26 26 0 0 0-14-48z" id="bulb" fill="var(--line)" stroke="var(--ink)" stroke-width="3"/><rect x="48" y="74" width="24" height="10" rx="3" fill="var(--ink)"/></svg>
+          </div>
+          <label for="ldr" class="muted">شدة ضوء الشمس</label>
+          <input type="range" id="ldr" min="0" max="100" value="70">
+          <div class="status" id="lightStatus"><span class="dot"></span><span>المصباح مطفأ: الضوء كافٍ</span></div>
+        </div>
+        <div class="sim" id="simTemp">
+          <h4>المروحة الذكية <span class="readout" id="tempVal">24°C</span></h4>
+          <div class="stage">
+            <svg viewBox="0 0 120 100" width="110" aria-hidden="true"><g id="fan" class="fan"><circle cx="60" cy="45" r="6" fill="var(--ink)"/><path d="M60 45 C50 20,70 10,66 38Z M60 45 C85 40,90 60,64 52Z M60 45 C55 70,35 65,54 50Z" fill="var(--teal)"/></g><rect x="56" y="55" width="8" height="34" fill="var(--ink)"/><rect x="40" y="88" width="40" height="6" rx="3" fill="var(--ink)"/></svg>
+          </div>
+          <label for="temp" class="muted">درجة حرارة الغرفة (العتبة <span class="mono">30°</span>)</label>
+          <input type="range" id="temp" min="15" max="45" value="24">
+          <div class="status" id="tempStatus"><span class="dot"></span><span>المروحة متوقفة</span></div>
+        </div>
+        <div class="sim" id="simMotion">
+          <h4>إضاءة الممر <span class="readout" id="pirVal">PIR 0</span></h4>
+          <div class="stage" id="motionStage">
+            <svg viewBox="0 0 160 100" width="150" aria-hidden="true"><circle id="hallGlow" cx="80" cy="20" r="30" fill="var(--sun)" opacity="0"/><rect x="66" y="6" width="28" height="10" rx="4" fill="var(--ink)"/><g id="walker" style="transition:transform 1.4s ease-in-out" transform="translate(-30 0)"><circle cx="20" cy="50" r="8" fill="var(--violet)"/><rect x="14" y="58" width="12" height="26" rx="5" fill="var(--violet)"/></g><path d="M0 92H160" stroke="var(--line)" stroke-width="3"/></svg>
+          </div>
+          <p class="muted" style="font-size:14px">يُطفأ تلقائيًا بعد <span class="mono">3</span> ثوانٍ من غياب الحركة.</p>
+          <button class="btn" id="walkBtn">مرّ أمام الحساس</button>
+          <div class="status" id="motionStatus"><span class="dot"></span><span>لا حركة، الممر مطفأ</span></div>
+        </div>
+      </div>
+
+      <div class="flow" aria-label="مخطط المدخل والمعالجة والمخرج">
+        <div class="node" style="border-color:var(--sun)"><small>المدخل</small><b>الحساس <span class="mono">sensor</span></b><small>يقيس الضوء أو الحرارة</small></div>
+        <span class="arrow">←</span>
+        <div class="node" style="border-color:var(--teal)"><small>المعالجة</small><b>المتحكم</b><small>يقارن القراءة بالعتبة</small></div>
+        <span class="arrow">←</span>
+        <div class="node" style="border-color:var(--mint)"><small>المخرج</small><b>الاستجابة</b><small>مصباح يضيء، مروحة تدور</small></div>
+      </div>
+      <div class="qas">
+        <details class="qa"><summary>كيف يعرف الجهاز متى يعمل؟</summary><p>عن طريق الحساس: عندما تقل الإضاءة يرسل إشارة لتشغيل المصباح.</p></details>
+        <details class="qa"><summary>ماذا يحدث إذا تغيرت الإضاءة فجأة؟</summary><p>يتفاعل الجهاز بسرعة ويغيّر حالته تلقائيًا.</p></details>
+      </div>
+    </article>
+  </section>
+
+  <!-- ================= DAY 2 ================= -->
+  <section class="day" id="day-2" role="tabpanel" aria-labelledby="tab-2" hidden>
+    <div class="dayhead"><div><h2>اليوم الثاني: من الفكرة إلى النموذج</h2><p>نقيس أثر الأجهزة الذكية، نصمم منزلنا، ثم نبرمج سلوك جهاز ذكي.</p></div></div>
+
+    <article class="station">
+      <div class="sthead"><span class="tag">المهمة ٢</span><h3>حاسبة أثر المصباح الذكي</h3><button class="check" data-task="d2a" aria-pressed="false">✓ أنهيتها</button></div>
+      <p class="muted">المصباح الذكي لا يبقى مشتعلًا طوال الوقت، بل يعمل فقط عند وجود حركة. احسب كم يوفّر في بيتك.</p>
+      <div class="grid2">
+        <div style="display:grid;gap:10px">
+          <div class="field"><label for="cWatt">قدرة المصباح (واط)</label><input id="cWatt" type="number" min="1" value="15"></div>
+          <div class="field"><label for="cCount">عدد المصابيح</label><input id="cCount" type="number" min="1" value="8"></div>
+          <div class="field"><label for="cHours">ساعات التشغيل يوميًا الآن</label><input id="cHours" type="number" min="1" max="24" value="10"></div>
+          <div class="field"><label for="cSmart">ساعات التشغيل مع حساس الحركة</label><input id="cSmart" type="number" min="0" max="24" value="4"></div>
+        </div>
+        <div style="display:grid;gap:10px;align-content:start">
+          <div class="stat"><span class="muted">نسبة التوفير</span><span class="big" id="rPct">60%</span></div>
+          <div class="stat"><span class="muted">الطاقة الموفّرة في الشهر</span><span class="big"><span id="rKwh" class="mono">21.6</span> <small style="font-size:18px">كيلوواط·ساعة</small></span></div>
+          <div class="stat"><span class="muted">التوفير التقريبي في الشهر (<span class="mono">0.18</span> ريال للكيلوواط·ساعة)</span><span class="big"><span id="rSar" class="mono">3.9</span> <small style="font-size:18px">ريال</small></span></div>
+        </div>
+      </div>
+      <div class="qas">
+        <details class="qa"><summary>كيف يقلل المصباح الذكي من استهلاك الطاقة؟</summary><p>لا يظل مشغلًا طوال الوقت، بل يعمل فقط عند وجود حركة.</p></details>
+        <details class="qa"><summary>ما فائدة نظام الري الذكي؟</summary><p>يروي النباتات فقط عند الحاجة ويوفّر الماء.</p></details>
+      </div>
+    </article>
+
+    <article class="station">
+      <div class="sthead"><span class="tag">المهمة ٣</span><h3>صمّم منزلك الذكي</h3><button class="check" data-task="d2b" aria-pressed="false">✓ أنهيتها</button></div>
+      <p class="muted">اختر غرفة، ثم أضف إليها أجهزة. راقب كيف يخدم تصميمك احتياجات المجتمع: الأمان والراحة والتوفير.</p>
+      <div class="grid2">
+        <div style="display:grid;gap:12px">
+          <div class="homegrid" id="rooms"></div>
+          <div class="palette" id="devices"></div>
+          <button class="btn ghost" id="clearHome">إفراغ الغرفة المحددة</button>
+        </div>
+        <div style="display:grid;gap:14px;align-content:start">
+          <div class="meters" id="meters"></div>
+          <div class="note" id="homeTip">ابدأ بإضافة حساس حركة إلى الممر.</div>
+          <div class="qas">
+            <details class="qa"><summary>ما الجهاز الذكي الأهم في تصميمكم؟ ولماذا؟</summary><p>مثال: حساس الحركة، لأنه يوفّر الطاقة ويزيد الراحة.</p></details>
+            <details class="qa"><summary>هل فكرتم في ذوي الاحتياجات الخاصة؟</summary><p>مثال: أضفنا بابًا يُفتح بالأوامر الصوتية.</p></details>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="station">
+      <div class="sthead"><span class="tag">المهمة ٤</span><h3>برمج سلوك الجهاز</h3><button class="check" data-task="d2c" aria-pressed="false">✓ أنهيتها</button></div>
+      <p class="muted">ركّب الكتل كما في <span class="mono">Scratch</span> أو <span class="mono">MakeCode</span>، ثم شغّل البرنامج على قراءات تجريبية.</p>
+      <div class="grid2">
+        <div class="blocks">
+          <div class="blk if">إذا كانت
+            <select id="pSensor" aria-label="الحساس"><option value="temp">الحرارة</option><option value="light">الإضاءة</option></select>
+            <select id="pOp" aria-label="المقارنة"><option value="gt">أكبر من</option><option value="lt">أقل من</option></select>
+            <input id="pVal" type="number" value="30" aria-label="العتبة">
+          </div>
+          <div class="blk then">إذن
+            <select id="pAct" aria-label="الأمر"><option value="fan">شغّل المروحة</option><option value="lamp">أضئ المصباح</option><option value="ac">شغّل المكيّف</option></select>
+          </div>
+          <div class="blk else">وإلا: أوقف الجهاز</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+            <button class="btn" id="runProg">▶ تشغيل</button>
+            <button class="btn ghost" id="presetFan">مثال المروحة</button>
+            <button class="btn ghost" id="presetLamp">مثال المصباح</button>
+          </div>
+        </div>
+        <div style="display:grid;gap:8px;min-width:0">
+          <div class="console" id="console">// اضغط تشغيل لاختبار البرنامج</div>
+          <p class="muted" style="font-size:14px">الرياضيات هنا: العتبة رقم، والإضاءة نسبة مئوية من <span class="mono">0</span> إلى <span class="mono">100%</span>.</p>
+        </div>
+      </div>
+      <p>قناة البرمجة على منصة عين الإثرائية: <a href="https://ibs.ien.edu.sa/#/beprogrammer" target="_blank" rel="noopener">قناة «كن مبرمجًا» ↗</a></p>
+      <div class="qas">
+        <details class="qa"><summary>ما المفهوم العلمي في البرمجة؟</summary><p>تغيّر درجة الحرارة يؤدي إلى تغيّر استجابة الجهاز.</p></details>
+        <details class="qa"><summary>كيف استخدمت الرياضيات؟</summary><p>لحساب الزمن والنسب، وبرمجة عتبة التشغيل، مثل التشغيل عند <span class="mono">30°</span>.</p></details>
+      </div>
+    </article>
+  </section>
+
+  <!-- ================= DAY 3 ================= -->
+  <section class="day" id="day-3" role="tabpanel" aria-labelledby="tab-3" hidden>
+    <div class="dayhead"><div><h2>اليوم الثالث: يوم العرض</h2><p>نجهّز العرض للمسابقة المدرسية، نكتب التقرير، ونختبر فهمنا.</p></div></div>
+
+    <article class="station">
+      <div class="sthead"><span class="tag">المهمة ٥</span><h3>جاهزية العرض أمام اللجنة</h3><button class="check" data-task="d3a" aria-pressed="false">✓ أنهيتها</button></div>
+      <div class="grid2">
+        <ul class="list" id="pitchList">
+          <li><label><input type="checkbox">نشرح فكرة المشروع في جملتين واضحتين.</label></li>
+          <li><label><input type="checkbox">نوضح طريقة عمل الجهاز: المدخل ثم المعالجة ثم المخرج.</label></li>
+          <li><label><input type="checkbox">نعرض المكونات المستخدمة (حساس، متحكم، مصباح أو مروحة).</label></li>
+          <li><label><input type="checkbox">نجهّز صورة أو فيديو قصيرًا للتنفيذ.</label></li>
+          <li><label><input type="checkbox">نتدرّب على الحديث بصوت واضح وضمن الوقت المحدد.</label></li>
+          <li><label><input type="checkbox">نجهّز إجابات لأسئلة اللجنة.</label></li>
+        </ul>
+        <div style="display:grid;gap:10px;align-content:start">
+          <div class="stat"><span class="muted">جاهزية الفريق</span><span class="big" id="pitchPct">0%</span></div>
+          <div class="qas">
+            <details class="qa"><summary>هل يمكن استخدام هذا التصميم في مدرسة؟</summary><p>نعم، في الفصول الذكية للإضاءة والتكييف.</p></details>
+            <details class="qa"><summary>ما الصعوبة التي واجهتموها؟</summary><p>ربط الحساس بالبرمجة في البداية.</p></details>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="station">
+      <div class="sthead"><span class="tag">المهمة ٦</span><h3>مولّد تقرير المشروع</h3><button class="check" data-task="d3b" aria-pressed="false">✓ أنهيتها</button></div>
+      <p class="muted">للمشاركة في معرض مدرسي أو فعالية مثل «إبداع» أو «موهبة». املأ الحقول ويتكوّن التقرير أمامك.</p>
+      <div class="grid2">
+        <div style="display:grid;gap:10px">
+          <div class="field"><label for="rTitle">عنوان المشروع</label><input id="rTitle" value="الممر الذكي الموفّر للطاقة"></div>
+          <div class="field"><label for="rIdea">فكرة الابتكار</label><textarea id="rIdea" rows="2">مصباح يضيء عند مرور شخص ويطفأ وحده بعد ثوانٍ باستخدام حساس حركة ووحدة Micro:bit.</textarea></div>
+          <div class="field"><label for="rNeed">الاحتياج الذي يعالجه</label><select id="rNeed"><option>ترشيد الطاقة</option><option>الأمان</option><option>الراحة</option></select></div>
+          <div class="field"><label for="rSteps">خطوات التنفيذ (سطر لكل خطوة)</label><textarea id="rSteps" rows="4">توصيل حساس الحركة بوحدة Micro:bit
+برمجة شرط التشغيل في MakeCode
+تجربة النموذج على مجسم كرتوني للممر
+قياس عدد ساعات الإضاءة قبل وبعد</textarea></div>
+          <div class="field"><label for="rBenefit">الفائدة المجتمعية</label><textarea id="rBenefit" rows="2">يخفض استهلاك الكهرباء في المنازل والمدارس ويزيد الراحة.</textarea></div>
+        </div>
+        <div style="display:grid;gap:10px;align-content:start;min-width:0">
+          <div class="report" id="reportOut"></div>
+          <button class="btn sun" id="copyReport">نسخ التقرير</button>
+        </div>
+      </div>
+      <div class="qas">
+        <details class="qa"><summary>كيف يساعد هذا الجهاز المجتمع؟</summary><p>يخفض الاستهلاك ويحسّن الراحة ويوفّر الطاقة.</p></details>
+        <details class="qa"><summary>ما الخطوة القادمة بعد المشروع؟</summary><p>تطويره ليعمل مع تطبيق على الجوال.</p></details>
+      </div>
+    </article>
+
+    <article class="station">
+      <div class="sthead"><span class="tag">الختام</span><h3>اختبر نفسك</h3><button class="check" data-task="d3c" aria-pressed="false">✓ أنهيتها</button></div>
+      <div class="quiz" id="quiz"></div>
+      <div class="note" id="quizScore">أجب عن الأسئلة الخمسة لترى نتيجتك.</div>
+    </article>
+  </section>
+</div>
+<footer class="wrap">إعداد المعلمة أمل الشهري · حصة النشاط للصف الثاني (ج) · برنامج تحدي إنترنت الأشياء ·<span class="mono">1448 - 2026</span></footer>
+<div class="toast" id="toast" role="status"></div>
+</div>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const ar=n=>String(n);
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),1800)}
+
+/* tabs */
+function showDay(d){$$('.daybtn').forEach(b=>b.setAttribute('aria-selected',b.dataset.day==d));[1,2,3].forEach(i=>$('#day-'+i).hidden=(i!=d));store.set('iot-day',d)}
+$$('.daybtn').forEach(b=>b.addEventListener('click',()=>{showDay(b.dataset.day);b.scrollIntoView({block:'nearest'})}));
+showDay(store.get('iot-day',1));
+
+/* progress */
+const done=store.get('iot-done',{});
+function refreshProgress(){
+  [1,2,3].forEach(d=>{const cs=$$('#day-'+d+' .check');const n=cs.filter(c=>done[c.dataset.task]).length;
+    const btn=$('#tab-'+d);btn.querySelector('.bar i').style.width=(n/cs.length*100)+'%';btn.classList.toggle('done',n===cs.length)});
+}
+$$('.check').forEach(c=>{c.setAttribute('aria-pressed',!!done[c.dataset.task]);c.addEventListener('click',()=>{done[c.dataset.task]=!done[c.dataset.task];c.setAttribute('aria-pressed',done[c.dataset.task]);store.set('iot-done',done);refreshProgress();if(done[c.dataset.task])toast('أحسنت! مهمة مكتملة')})});
+refreshProgress();
+
+/* light sim */
+function light(){const v=+$('#ldr').value;$('#ldrVal').textContent='LDR '+v+'%';const on=v<40;
+  $('#bulbGlow').setAttribute('opacity',on?.55:0);$('#bulb').setAttribute('fill',on?'var(--sun)':'var(--line)');
+  $('#lightStage').style.background=`color-mix(in srgb, var(--surface) ${30+v*.7}%, #0b1f24)`;
+  $('#simLight').classList.toggle('on',on);$('#lightStatus span:last-child').textContent=on?'المصباح يعمل: الإضاءة أقل من 40%':'المصباح مطفأ: الضوء كافٍ'}
+$('#ldr').addEventListener('input',light);light();
+/* temp sim */
+function temp(){const v=+$('#temp').value;$('#tempVal').textContent=v+'°C';const on=v>30;$('#fan').classList.toggle('spin',on);
+  $('#simTemp').classList.toggle('on',on);$('#tempStatus span:last-child').textContent=on?'المروحة تعمل: الحرارة أعلى من 30°':'المروحة متوقفة'}
+$('#temp').addEventListener('input',temp);temp();
+/* motion sim */
+let mt;$('#walkBtn').addEventListener('click',()=>{const w=$('#walker');w.setAttribute('transform','translate(-30 0)');
+  requestAnimationFrame(()=>{w.style.transition='none';w.getBoundingClientRect();w.style.transition='transform 1.4s ease-in-out';w.setAttribute('transform','translate(55 0)')});
+  $('#hallGlow').setAttribute('opacity',.6);$('#pirVal').textContent='PIR 1';$('#simMotion').classList.add('on');$('#motionStatus span:last-child').textContent='حركة! الممر مضاء';
+  clearTimeout(mt);mt=setTimeout(()=>{$('#hallGlow').setAttribute('opacity',0);$('#pirVal').textContent='PIR 0';$('#simMotion').classList.remove('on');$('#motionStatus span:last-child').textContent='لا حركة، الممر مطفأ';w.setAttribute('transform','translate(140 0)')},3000)});
+
+/* calculator */
+function calc(){const w=+$('#cWatt').value||0,c=+$('#cCount').value||0,h=+$('#cHours').value||0,s=Math.min(+$('#cSmart').value||0,h);
+  const pct=h?Math.round((h-s)/h*100):0;const kwh=w*c*(h-s)*30/1000;
+  $('#rPct').textContent=pct+'%';$('#rKwh').textContent=kwh.toFixed(1);$('#rSar').textContent=(kwh*0.18).toFixed(1)}
+['#cWatt','#cCount','#cHours','#cSmart'].forEach(s=>$(s).addEventListener('input',calc));calc();
+
+/* home builder */
+const DEV={motion:{n:'حساس حركة',c:'var(--violet)',s:[1,2,3]},lamp:{n:'مصباح ذكي',c:'var(--sun)',s:[0,2,3]},ac:{n:'مكيّف ذكي',c:'var(--teal)',s:[0,3,2]},cam:{n:'كاميرا',c:'var(--coral)',s:[3,1,0]},water:{n:'ري ذكي',c:'var(--mint)',s:[0,1,3]},voice:{n:'باب صوتي',c:'#9ad0dc',s:[2,3,0]}};
+const ROOMS=['المجلس','غرفة النوم','المطبخ','الممر','الحديقة','المدخل'];
+let home=store.get('iot-home',{3:['motion']});let sel=3;
+function renderHome(){
+  $('#rooms').innerHTML=ROOMS.map((r,i)=>`<button class="room ${i==sel?'sel':''}" data-i="${i}" aria-pressed="${i==sel}"><b>${r}</b><span class="pills">${(home[i]||[]).map(d=>`<span class="pill" style="background:${DEV[d].c}">${DEV[d].n}</span>`).join('')}</span></button>`).join('');
+  $$('#rooms .room').forEach(b=>b.onclick=()=>{sel=+b.dataset.i;renderHome()});
+  const t=[0,0,0];Object.values(home).flat().forEach(d=>DEV[d].s.forEach((v,k)=>t[k]+=v));
+  const names=['الأمان','الراحة','التوفير'],cols=['var(--coral)','var(--violet)','var(--mint)'];
+  $('#meters').innerHTML=names.map((n,k)=>`<div class="meter"><span>${n}</span><span class="track"><i style="width:${Math.min(100,t[k]*8)}%;background:${cols[k]}"></i></span><span class="mono">${t[k]}</span></div>`).join('');
+  const all=Object.values(home).flat();
+  $('#homeTip').textContent=!all.length?'ابدأ بإضافة حساس حركة إلى الممر.':!all.includes('voice')?'فكّر في ذوي الاحتياجات الخاصة: جرّب إضافة باب صوتي.':!all.includes('water')?'هل في الحديقة نباتات؟ الري الذكي يوفّر الماء.':'تصميم متوازن! جهّز شرحًا لسبب اختيار كل جهاز.';
+  store.set('iot-home',home)}
+$('#devices').innerHTML=Object.entries(DEV).map(([k,d])=>`<button class="dev" data-k="${k}"><i style="background:${d.c}"></i>${d.n}</button>`).join('');
+$$('#devices .dev').forEach(b=>b.onclick=()=>{const a=home[sel]||(home[sel]=[]);if(a.includes(b.dataset.k)){toast('الجهاز موجود في هذه الغرفة')}else{a.push(b.dataset.k);toast('أُضيف '+DEV[b.dataset.k].n+' إلى '+ROOMS[sel])}renderHome()});
+$('#clearHome').onclick=()=>{home[sel]=[];renderHome()};
+renderHome();
+
+/* programming */
+function preset(s,o,v,a){$('#pSensor').value=s;$('#pOp').value=o;$('#pVal').value=v;$('#pAct').value=a}
+$('#presetFan').onclick=()=>preset('temp','gt',30,'fan');$('#presetLamp').onclick=()=>preset('light','lt',40,'lamp');
+$('#runProg').onclick=()=>{const s=$('#pSensor').value,o=$('#pOp').value,v=+$('#pVal').value,a=$('#pAct').value;
+  const acts={fan:'FAN',lamp:'LAMP',ac:'AC'};const unit=s==='temp'?'°C':'%';const name=s==='temp'?'temperature':'light';
+  const tests=s==='temp'?[22,28,31,36]:[85,50,35,10];
+  let out=`if (${name} ${o==='gt'?'>':'<'} ${v}${unit}) { ${acts[a]}.on() } else { ${acts[a]}.off() }\n\n`;
+  tests.forEach(x=>{const on=o==='gt'?x>v:x<v;out+=`${name} = ${String(x).padStart(2)}${unit}  →  ${acts[a]} ${on?'ON  ✔':'OFF'}\n`});
+  const sensible=(s==='temp'&&o==='gt'&&a!=='lamp')||(s==='light'&&o==='lt'&&a==='lamp');
+  out+=sensible?'\n// منطق سليم: الجهاز يستجيب للتغير البيئي المناسب':'\n// تنبيه: راجع الشرط، هل هذه الاستجابة منطقية؟';
+  $('#console').textContent=out};
+
+/* pitch checklist */
+const pl=$$('#pitchList input');const pst=store.get('iot-pitch',[]);pl.forEach((c,i)=>{c.id='pitch'+i;c.checked=!!pst[i];c.onchange=pitch});
+function pitch(){const n=pl.filter(c=>c.checked).length;$('#pitchPct').textContent=Math.round(n/pl.length*100)+'%';store.set('iot-pitch',pl.map(c=>c.checked))}pitch();
+
+/* report */
+const rf=['#rTitle','#rIdea','#rNeed','#rSteps','#rBenefit'];
+const saved=store.get('iot-report',null);if(saved)rf.forEach((s,i)=>{if(saved[i]!=null)$(s).value=saved[i]});
+function reportText(){const st=$('#rSteps').value.split('\n').filter(x=>x.trim()).map((x,i)=>`${i+1}. ${x.trim()}`).join('\n');
+  return `عنوان المشروع: ${$('#rTitle').value}\n\nفكرة الابتكار: ${$('#rIdea').value}\n\nالاحتياج الذي يعالجه: ${$('#rNeed').value}\n\nخطوات التنفيذ:\n${st}\n\nالفائدة المجتمعية: ${$('#rBenefit').value}`}
+function report(){const el=$('#reportOut');el.innerHTML='';const h=document.createElement('h4');h.textContent='تقرير مشروع: '+$('#rTitle').value;const p=document.createElement('div');p.textContent=reportText().split('\n').slice(2).join('\n');el.append(h,p);store.set('iot-report',rf.map(s=>$(s).value))}
+rf.forEach(s=>$(s).addEventListener('input',report));report();
+$('#copyReport').onclick=()=>{const t=reportText();(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('نُسخ التقرير')).catch(()=>{const r=document.createRange();r.selectNodeContents($('#reportOut'));const s=getSelection();s.removeAllRanges();s.addRange(r);toast('حدّد النص وانسخه يدويًا')})};
+
+/* quiz */
+const Q=[
+ ['أي حساس يقيس شدة الضوء؟',['PIR','LDR','NTC'],1],
+ ['ماذا يعني الاختصار IoT؟',['إنترنت الأشياء','ذكاء اصطناعي','شبكة محلية'],0],
+ ['المروحة الذكية تعمل عندما...',['تنخفض الإضاءة','يمر شخص','ترتفع الحرارة عن العتبة'],2],
+ ['في المخطط، الحساس هو...',['المدخل','المخرج','البطارية'],0],
+ ['لماذا يوفر حساس الحركة الطاقة؟',['يرفع الإضاءة','يشغل المصباح عند الحاجة فقط','يبرّد الغرفة'],1]];
+let score=0,answered=0;
+$('#quiz').innerHTML=Q.map((q,i)=>`<div><p style="font-weight:700">${i+1}. ${q[0]}</p><div class="qopt" data-q="${i}">${q[1].map((o,j)=>`<button data-j="${j}">${o}</button>`).join('')}</div></div>`).join('');
+$$('.qopt').forEach(g=>g.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(g.dataset.a)return;g.dataset.a=1;const q=Q[g.dataset.q];const ok=+b.dataset.j===q[2];
+  b.classList.add(ok?'right':'wrong');g.children[q[2]].classList.add('right');answered++;if(ok)score++;
+  $('#quizScore').textContent=answered<Q.length?`أجبت عن ${answered} من ${Q.length}`:`نتيجتك ${score} من ${Q.length}. ${score>=4?'ممتاز! أنت جاهز للتحدي':'راجع مختبر الحساسات وحاول مجددًا'}`}));
+})();
+</script>
+</body>
+</html>
